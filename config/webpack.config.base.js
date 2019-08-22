@@ -4,13 +4,14 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 
 const ROOTPATH = path.join(process.cwd());
-
+const APP_PATH = path.join(ROOTPATH, '/src')
 module.exports = {
-    entry: path.join(ROOTPATH,'/src/index.js'),
+    entry: path.join(APP_PATH,'/index.js'),
     output:{
         filename: 'luanda.js',
         path: path.join(ROOTPATH,'/dist')
     },
+
     module:{
         rules:[
             {
@@ -71,11 +72,16 @@ module.exports = {
     plugins:[
         // new CleanWebpackPlugin(),
         new HtmlWebpackPlugin({
-            template: path.join(ROOTPATH,'/src/index.html')
+            template: path.join(APP_PATH,'/index.html')
         }),
         new MiniCssExtractPlugin({
             filename: 'luanda.css',
             chunkFilename:'[id].css'
         })
-    ]
+    ],
+    resolve: {
+        alias: {
+            '@': `${APP_PATH}/`,
+        },
+    }
 }
