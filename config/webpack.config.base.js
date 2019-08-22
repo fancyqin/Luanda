@@ -6,7 +6,7 @@ const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const ROOTPATH = path.join(process.cwd());
 const APP_PATH = path.join(ROOTPATH, '/src')
 module.exports = {
-    entry: path.join(APP_PATH,'/index.js'),
+    entry: path.join(APP_PATH,'/App.js'),
     output:{
         filename: 'luanda.js',
         path: path.join(ROOTPATH,'/dist')

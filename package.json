@@ -1,14 +1,14 @@
 {
   "name": "Luanda",
   "version": "1.0.0",
-  "description": "",
+  "description": "Luanda,The Capital of Angola, A React&Redux&React-router&webpack App",
   "main": "index.js",
   "scripts": {
     "dev": "webpack-dev-server --open --config config/webpack.config.dev.js",
     "build": "webpack --config config/webpack.config.prod.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "QF",
   "license": "ISC",
   "browserslist": [
     "defaults",
@@ -45,6 +45,7 @@
     "webpack-merge": "^4.2.1"
   },
   "dependencies": {
+    "antd": "^3.22.0",
     "react-router": "^5.0.1",
     "react-router-redux": "^4.0.8",
     "redux": "^4.0.4",
