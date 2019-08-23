@@ -6,9 +6,13 @@ const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const ROOTPATH = path.join(process.cwd());
 const APP_PATH = path.join(ROOTPATH, '/src')
 module.exports = {
-    entry: path.join(APP_PATH,'/App.js'),
+    entry: {
+        address: path.join(ROOTPATH,'/src/page/address/index.js'),
+        credit: path.join(ROOTPATH,'/src/page/credit/index.js'),
+    },
+    // entry: path.join(APP_PATH,'/App.js'),
     output:{
-        filename: 'luanda.js',
+        filename: '[name].js',
         path: path.join(ROOTPATH,'/dist')
     },
 
@@ -72,12 +76,17 @@ module.exports = {
     plugins:[
         // new CleanWebpackPlugin(),
         new HtmlWebpackPlugin({
-            template: path.join(APP_PATH,'/index.html')
+            filename:'address.html',
+            template: path.join(APP_PATH,'/template.html'),
         }),
-        new MiniCssExtractPlugin({
-            filename: 'luanda.css',
-            chunkFilename:'[id].css'
-        })
+        new HtmlWebpackPlugin({
+            filename:'credit.html',
+            template: path.join(APP_PATH,'/template.html'),
+        }),
+        // new MiniCssExtractPlugin({
+        //     filename: 'luanda.css',
+        //     chunkFilename:'[id].css'
+        // })
     ],
     resolve: {
         alias: {
