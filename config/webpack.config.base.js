@@ -10,7 +10,6 @@ module.exports = {
     entry: {
         ...entries
     },
-    // entry: path.join(APP_PATH,'/App.js'),
     output:{
         filename: '[name]/[name].js',
         path: path.join(ROOTPATH,'/dist')
@@ -85,5 +84,6 @@ module.exports = {
         alias: {
             '@': `${APP_PATH}/`,
         },
-    }
+    },
+    
 }

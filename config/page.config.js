@@ -1,6 +1,5 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
 const ROOTPATH = path.join(process.cwd());
 const APP_PATH = path.join(ROOTPATH, '/src')
@@ -17,7 +16,7 @@ const PAGE_CONFIGS = [
 ]
 
 
-let entries = {},plugins = []
+let entries = {},plugins = [],chunksNames = [];
 
 PAGE_CONFIGS.forEach((item,i)=>{
     entries[item.name] = path.join(ROOTPATH,item.entryJs);
@@ -26,13 +25,12 @@ PAGE_CONFIGS.forEach((item,i)=>{
         template: path.join(APP_PATH,'/template.html'),
         chunks:[item.name]
     }))
-    // plugins.push(new MiniCssExtractPlugin({
-    //     filename: `${item.name}.css`,
-    //     chunks:[item.name],
-    // }),)
+    chunksNames.push(item.name)
 })
+
 
 module.exports = {
     entries,
-    plugins
+    plugins,
+    chunksNames
 }

@@ -6,6 +6,6 @@ module.exports = merge(baseConfig,{
     devtool:'inline-source-map',
     devServer:{
         contentBase:'../dist',
-        port:'2019'
+        port:'2019',
     }
 })
