@@ -1,20 +1,20 @@
 import React,{Component} from 'react'
 import ReactDOM from 'react-dom'
-import { Router, Route, IndexRoute,browserHistory } from 'react-router'
+import {HashRouter as Router, Route } from 'react-router-dom'
 import AddCreditPage from './view/AddCreditPage'
 import CreditDetailPage from './view/CreditDetailPage'
 import CreditListPage from './view/CreditListPage'
 
+import './index.scss';
 
-
-import '@/common.scss';
 
 class App extends Component {
     render(){
-        return <Router history={browserHistory}>
-        <Route path="/credit"  component={CreditListPage} />>
-        <Route path="/credit/add" component={AddCreditPage} />
-        <Route path="/credit/detail" component={CreditDetailPage} />
+        return <Router>
+        <Route path="/" exact component={CreditListPage} />
+        <Route path="/add" component={AddCreditPage} />
+        <Route path="/detail/:id" component={CreditDetailPage} />
+
       </Router>
     }
 }

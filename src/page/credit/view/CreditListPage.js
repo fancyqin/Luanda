@@ -1,9 +1,14 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+
+import {Link} from 'react-router-dom';
 
 export default class CreditListPage extends Component {
     render() {
         return (
             <div>
+                <Link to="/detail/fefe" >Go To Detail</Link>
+                <Link to="/add" >Add a Credit</Link>
+                
                 CreditListPage
             </div>
         )
