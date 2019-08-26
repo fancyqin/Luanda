@@ -7,8 +7,7 @@ export default class CreditListPage extends Component {
         return (
             <div>
                 <Link to="/detail/fefe" >Go To Detail</Link>
-                <Link to="/add" >Add a Credit</Link>
-                
+                <Link to="/applyCredit" >Add a Credit</Link>
                 CreditListPage
             </div>
         )

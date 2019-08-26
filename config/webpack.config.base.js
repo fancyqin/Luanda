@@ -73,7 +73,7 @@ module.exports = {
         ]
     },
     plugins:[
-        new CleanWebpackPlugin(),
+        // new CleanWebpackPlugin(),
         ...plugins,
         new MiniCssExtractPlugin({ 
 			filename: "[name]/[name].css",
