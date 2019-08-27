@@ -37,12 +37,15 @@ class ApplyCreditPage extends Component {
         let {pageLoading,data} = this.state;
         let {creditStatus} = data;
         return (
-            <div className="apply-credit">
-                {!pageLoading && <div>
-                    <h2 className="ac-title">Apply for Crov Credit</h2>
-                    
-                </div>}
+            <div className="vo-main-wrap">
+                <div className="apply-credit">
+                    {!pageLoading && <div>
+                        <h2 className="ac-title">Apply for Crov Credit</h2>
+                        
+                    </div>}
+                </div>
             </div>
+            
         )
     }
 }

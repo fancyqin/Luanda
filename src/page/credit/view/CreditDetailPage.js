@@ -9,7 +9,7 @@ export default class CreditDetailPage extends Component {
         let {location} = this.props;
         let parseQuery = parse(location.search,true).query
         return (
-            <div>
+            <div className="vo-main-wrap">
                 CreditDetailPage , id is {parseQuery.id}
             </div>
         )

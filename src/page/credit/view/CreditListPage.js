@@ -5,7 +5,7 @@ import {Link} from 'react-router-dom';
 export default class CreditListPage extends Component {
     render() {
         return (
-            <div>
+            <div className="vo-main-wrap">
                 <Link to="/detail?id=fwfwfw" >Go To Detail</Link>
                 <Link to="/applyCredit" >Add a Credit</Link>
                 CreditListPage

@@ -5,8 +5,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title><%= htmlWebpackPlugin.options.filename %></title>
+    <link type="text/css" rel="stylesheet" href="http://crov.micstatic.com/an/css/home.css">
 </head>
 <body>
-    <div id="root"></div>
+    <div class="header-placeholder header-placeholder-v2 header-ship" style="box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);" >
+        <div class="header-wrap J-header-wrap" style="height: 70px">
+            Header
+        </div>
+
+    </div>
+    <div class="vo-wrapper">
+        <div class="vo-wrapper-reset">
+            <div class="vo-sider">
+                <ul class="vo-nav">
+                    <li>Sider</li>
+                </ul>
+            </div>
+            <div id="root"></div>
+        </div>
+    </div>
+    <div class="footer-wrap footer-vo" id="J-page-footer">
+        <ul class="footer-vo-text">
+            
+            <li class="footer-vo-item">
+                <a href="//www.crov.com/info/aboutus.html" target="_blank" rel="nofollow">Footer</a>
+            </li>
+        </ul>
+    </div>
+    
 </body>
 </html>
