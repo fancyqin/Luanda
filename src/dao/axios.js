@@ -1,5 +1,3 @@
-// Copyright 2018 FOCUS Inc.All Rights Reserved.
-
 import axios from 'axios';
 import setting from '@/setting';
 import { isArray } from '@/utils';
