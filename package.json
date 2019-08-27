@@ -4,7 +4,7 @@
   "description": "Luanda,The Capital of Angola, A React&Redux&React-router&webpack App",
   "main": "index.js",
   "scripts": {
-    "dev": "webpack-dev-server --open --config config/webpack.config.dev.js --history-api-fallback ",
+    "dev": "webpack-dev-server --open --config config/webpack.config.dev.js",
     "build": "webpack --config config/webpack.config.prod.js"
   },
   "keywords": [],
@@ -49,6 +49,7 @@
     "react-router-dom": "^5.0.1",
     "react-router-redux": "^4.0.8",
     "redux": "^4.0.4",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "url-parse": "^1.4.7"
   }
 }

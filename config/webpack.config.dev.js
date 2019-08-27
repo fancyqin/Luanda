@@ -7,5 +7,10 @@ module.exports = merge(baseConfig,{
     devServer:{
         contentBase:'../dist',
         port:'2019',
+        historyApiFallback: {
+            rewrites: [
+              { from: /^\/credit.*/, to: '/credit/index.html' },
+            ]
+        }
     }
 })
