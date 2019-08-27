@@ -4,7 +4,7 @@ import {BrowserRouter as Router, Route } from 'react-router-dom'
 import ApplyCreditPage from './view/ApplyCreditPage'
 import CreditDetailPage from './view/CreditDetailPage'
 import CreditListPage from './view/CreditListPage'
-
+// import NotFoundPage from '@/components/noFound/NoFoundPage'
 import 'antd/dist/antd.css';
 import './index.scss';
 

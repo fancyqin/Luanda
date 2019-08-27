@@ -7,7 +7,12 @@ class ApplyCreditPage extends Component {
     }
     
     componentDidMount(){
-        
+        CreditDao.getApplyCredit().then(result=> {
+            let {data,status} = result.data;
+            
+        }).catch(error => {
+            console.log(error)
+        })
     }
 
     render() {
