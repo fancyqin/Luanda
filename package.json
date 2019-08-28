@@ -51,6 +51,7 @@
     "react-router-redux": "^4.0.8",
     "redux": "^4.0.4",
     "redux-thunk": "^2.3.0",
-    "url-parse": "^1.4.7"
+    "url-parse": "^1.4.7",
+    "webpack-bundle-analyzer": "^3.4.1"
   }
 }

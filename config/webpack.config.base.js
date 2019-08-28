@@ -72,18 +72,30 @@ module.exports = {
             }
         ]
     },
-    plugins:[
-        // new CleanWebpackPlugin(),
-        ...plugins,
-        new MiniCssExtractPlugin({ 
-			filename: "[name]/[name].css",
-			chunkFilename: "[id].css"
-		})
-    ],
     resolve: {
         alias: {
             '@': `${APP_PATH}/`,
         },
     },
+    optimization:{
+        splitChunks:{
+            cacheGroups: {
+                vendor: {
+                    test: /[\\/]node_modules[\\/].*\.js$/,
+                    chunks: "initial", 
+                    name: "common", 
+                    enforce: true,
+                },
+            }
+        }
+    },
+    plugins:[
+        new CleanWebpackPlugin(),
+        ...plugins,
+        new MiniCssExtractPlugin({
+			filename: "[name]/[name].css",
+			chunkFilename: "[id].css"
+		})
+    ],
     
 }
