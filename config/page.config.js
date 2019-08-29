@@ -23,7 +23,7 @@ PAGE_CONFIGS.forEach((item,i)=>{
     plugins.push(new HtmlWebpackPlugin({
         filename: `${item.name}/index.html`,
         template: path.join(APP_PATH,'/template.html'),
-        chunks:[item.name]
+        chunks:['common',item.name]
     }))
     chunksNames.push(item.name)
 })
