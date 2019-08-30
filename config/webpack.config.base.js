@@ -3,6 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const {entries,plugins} = require('./page.config')
+// const AntdScssThemePlugin = require('antd-scss-theme-plugin')
 
 const ROOTPATH = path.join(process.cwd());
 const APP_PATH = path.join(ROOTPATH, '/src')
@@ -52,6 +53,7 @@ module.exports = {
                         }
                     },
                     {
+                        // loader: AntdScssThemePlugin.themify('sass-loader'),
                         loader:'sass-loader',
                         options:{
                             implementation: require('dart-sass')
@@ -95,7 +97,8 @@ module.exports = {
         new MiniCssExtractPlugin({
 			filename: "[name]/[name].css",
 			chunkFilename: "[id].css"
-		})
+        }),
+        // new AntdScssThemePlugin(path.join(ROOTPATH, '/src/styles/antd2crov.scss'))
     ],
     
 }

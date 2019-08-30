@@ -3,6 +3,8 @@ import CreditDao from '@/dao/CreditDao';
 
 import '../styles/ApplyCredit.scss'
 
+import ApplyCreditFrom from './module/ApplyCreditForm'
+
 class ApplyCreditPage extends Component {
     constructor(props){
         super(props);
@@ -17,12 +19,12 @@ class ApplyCreditPage extends Component {
         CreditDao.getApplyCredit().then(result=> {
             let {data,status} = result.data;
             let {creditStatus} = data;
-            if(status === '2'){
-                // window.location.replace('/error/403')
-            }
-            if(creditStatus === '1'){
-                history.replace('/')
-            }
+            // if(status === '2'){
+            //     window.location.replace('/error/403')
+            // }
+            // if(creditStatus === '1'){
+            //     history.replace('/')
+            // }
             this.setState({
                 pageLoading: false,
                 data
@@ -37,11 +39,17 @@ class ApplyCreditPage extends Component {
         let {pageLoading,data} = this.state;
         let {creditStatus} = data;
         return (
-            <div className="vo-main-wrap">
-                <div className="apply-credit">
+            <div className="vo-main-wrap apply-credit">
+                <div className="vo-main">
                     {!pageLoading && <div>
-                        <h2 className="ac-title">Apply for Crov Credit</h2>
-                        
+                        <div className="vo-main-title">
+                            <div className="vo-main-title-text">Apply for Crov Credit</div>
+                        </div>
+                        <div className="vo-block">
+
+                            <ApplyCreditFrom />
+                            
+                        </div>
                     </div>}
                 </div>
             </div>

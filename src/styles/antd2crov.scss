@@ -1,0 +1,30 @@
+$primary-color: #fe8019;
+
+
+body{
+    background-color: initial;
+    font-family: "Roboto",Arial,"Microsoft YaHei",sans-serif;
+}
+.ant-input{
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border: 1px solid #ced3d9;
+    border-radius: 6px;
+    color: #222;
+    vertical-align: middle;
+    line-height: 1.5;
+    box-sizing: border-box;
+}
+.ant-form-item-label{
+    font-size: 14px;
+    line-height: 1.5;
+    padding: 6px 5px 6px 0;
+    label{
+        color: #888;
+    }
+}
+.ant-form-item-required::before{
+    font-family: inherit
+}
