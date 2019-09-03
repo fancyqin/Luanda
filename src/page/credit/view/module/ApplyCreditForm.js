@@ -29,7 +29,8 @@ const ApplyCreditRules = {
             {
                 max: 7,
                 message:'Desired credit limit may enter up to 7 digits.'  
-            }
+            },
+            method.digits('Please enter in digits only.')
         ],
     },
     description:{
