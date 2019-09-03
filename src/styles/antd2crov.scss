@@ -15,9 +15,7 @@ body{
     line-height: 1.5;
     box-sizing: border-box;
 }
-.ant-input:hover,.ant-cascader-input:hover,.ant-cascader-picker-label:hover + .ant-cascader-input{
-    border-color: #a1aab2;
-}
+
 .ant-input:focus,.ant-cascader-input:focus,.ant-cascader-picker-label:focus + .ant-cascader-input{
     border-color: $color-main;
     box-shadow: none;
