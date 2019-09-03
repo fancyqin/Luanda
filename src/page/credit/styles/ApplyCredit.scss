@@ -15,6 +15,12 @@ body{
     border: 1px solid #ced3d9;
     overflow: hidden;
     border-radius: 6px;
+    &:hover{
+        border-color: #388ed9;
+    }
+    &:focus{
+        border-color: $color-main;
+    }
     &.textarea-with-number-error{
         border-color: $color-main-red;
     }

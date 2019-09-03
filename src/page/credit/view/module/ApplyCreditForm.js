@@ -31,7 +31,8 @@ const ApplyCreditRules = {
                 message:'Desired credit limit may enter up to 7 digits.'  
             },
             method.digits('Please enter in digits only.')
-        ],
+		],
+		validateFirst:true,
     },
     description:{
         rules: [
@@ -44,15 +45,27 @@ const ApplyCreditRules = {
                 max: 4000,
                 message:'Application description may enter up to 4000 character.'
             }
-        ]
+		],
+		validateFirst:true
     }
 }
 
 
 class ApplyCreditForm extends React.Component {
 
+	constructor(props){
+		super(props);
+		
+	}
+
+	componentDidMount(){
+		let {initValue,form} = this.props;
+		let {setFieldsValue} = form;
+		setFieldsValue({creditLimit:12313})
+	}
+
 	state = {
-		confirmDirty: false,
+		confirmDirty: false
 	};
 
 	handleSubmit = e => {
@@ -64,32 +77,9 @@ class ApplyCreditForm extends React.Component {
 		});
 	};
 
-	handleConfirmBlur = e => {
-		const { value } = e.target;
-		this.setState({ confirmDirty: this.state.confirmDirty || !!value });
-	};
-
-	compareToFirstPassword = (rule, value, callback) => {
-		const { form } = this.props;
-		if (value && value !== form.getFieldValue('password')) {
-			callback('Two passwords that you enter is inconsistent!');
-		} else {
-			callback();
-		}
-	};
-
-	validateToNextPassword = (rule, value, callback) => {
-		const { form } = this.props;
-		if (value && this.state.confirmDirty) {
-			form.validateFields(['confirm'], { force: true });
-		}
-		callback();
-	};
-
 
 	render() {
 		const { getFieldDecorator,getFieldValue,getFieldError } = this.props.form;
-
 		const formItemLayout = {
 			labelCol: {
 				xs: { span: 24 },
@@ -117,14 +107,14 @@ class ApplyCreditForm extends React.Component {
 			<Form {...formItemLayout} onSubmit={this.handleSubmit}>
 				<Form.Item label="Desired Credit Limit">
 					{getFieldDecorator('creditLimit',ApplyCreditRules.creditLimit)(
-                        <div className="col-6">
-                            <Input addonBefore={usUnit} maxLength={7} />
+                        <div className="ant-col-sm-12">
+							<Input addonBefore={usUnit} maxLength={7} />
                         </div>
                     )}
                 </Form.Item>
                 <Form.Item label="Application Description">
                     {getFieldDecorator('description',ApplyCreditRules.description)(
-                        <div className={`col-8 textarea-with-number ${getFieldError('description') && 'textarea-with-number-error'}`}>
+                        <div className={`ant-col-sm-16 textarea-with-number ${getFieldError('description') && 'textarea-with-number-error'}`}>
                             <Input.TextArea maxLength={4000} style={{height: 200}} />
                             <div className="textarea-span">{getFieldValue('description')?getFieldValue('description').length:0}/4000</div>
                         </div>
