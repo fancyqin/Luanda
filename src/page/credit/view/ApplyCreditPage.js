@@ -16,6 +16,8 @@ class ApplyCreditPage extends Component {
     
     componentDidMount(){
         let {history} = this.props;
+        document.querySelector('body').classList.add('react-apply-credit')
+        
         CreditDao.getApplyCredit().then(result=> {
             let {data,status} = result.data;
             let {creditStatus} = data;
@@ -35,6 +37,10 @@ class ApplyCreditPage extends Component {
         })
     }
 
+    componentWillUnmount(){
+        document.querySelector('body').classList.remove('react-apply-credit')
+    }
+
     render() {
         let {pageLoading,data} = this.state;
         let {creditStatus} = data;
@@ -46,9 +52,7 @@ class ApplyCreditPage extends Component {
                             <div className="vo-main-title-text">Apply for Crov Credit</div>
                         </div>
                         <div className="vo-block">
-
                             <ApplyCreditFrom />
-                            
                         </div>
                     </div>}
                 </div>

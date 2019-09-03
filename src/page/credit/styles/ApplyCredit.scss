@@ -1,12 +1,45 @@
+@import '../../../styles/_var';
 html{
     background: #f5f7fa;
 }
 body{
     background: none;
 }
-
+.react-apply-credit{
+    .vo-sider{
+        display: none;
+    }
+}
+.textarea-with-number{
+    position:relative;
+    border: 1px solid #ced3d9;
+    overflow: hidden;
+    border-radius: 6px;
+    &.textarea-with-number-error{
+        border-color: $color-main-red;
+    }
+    .textarea-span{
+        width: 100%;
+        padding: 6px 10px;
+        border-top: 1px solid #e6ecf2;
+        box-sizing: border-box;
+        background: #f6f7fb;
+        color: #888;
+        font-size: 12px;
+        line-height: 1.5;
+        text-align: right;
+    }
+    textarea {
+        border: 0;
+        resize: none;
+    }
+}
 .apply-credit{
     font-size: 30px;
+    margin-left: 0;
+    .vo-block{
+        padding: 40px 20px;
+    }
     .ac-title{
         font-size: 18px;
         font-weight: bold;

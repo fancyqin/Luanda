@@ -1,255 +1,147 @@
 import React from 'react'
 import {
-    Form,
+	Form,
     Input,
-    Tooltip,
-    Icon,
-    Cascader,
-    Select,
-    Row,
-    Col,
-    Checkbox,
-    Button,
-    AutoComplete,
-  } from 'antd';
-  
-  const { Option } = Select;
-  const AutoCompleteOption = AutoComplete.Option;
-  
-  const residences = [
-    {
-      value: 'zhejiang',
-      label: 'Zhejiang',
-      children: [
-        {
-          value: 'hangzhou',
-          label: 'Hangzhou',
-          children: [
-            {
-              value: 'xihu',
-              label: 'West Lake',
-            },
-          ],
-        },
-      ],
-    },
-    {
-      value: 'jiangsu',
-      label: 'Jiangsu',
-      children: [
-        {
-          value: 'nanjing',
-          label: 'Nanjing',
-          children: [
-            {
-              value: 'zhonghuamen',
-              label: 'Zhong Hua Men',
-            },
-          ],
-        },
-      ],
-    },
-  ];
-  
-  class RegistrationForm extends React.Component {
+    
+	Tooltip,
+	Icon,
+	Cascader,
+	Select,
+	Row,
+	Col,
+	Checkbox,
+	Button,
+} from 'antd';
 
-    state = {
-      confirmDirty: false,
-      autoCompleteResult: [],
-    };
-  
-    handleSubmit = e => {
-      e.preventDefault();
-      this.props.form.validateFieldsAndScroll((err, values) => {
-        if (!err) {
-          console.log('Received values of form: ', values);
-        }
-      });
-    };
-  
-    handleConfirmBlur = e => {
-      const { value } = e.target;
-      this.setState({ confirmDirty: this.state.confirmDirty || !!value });
-    };
-  
-    compareToFirstPassword = (rule, value, callback) => {
-      const { form } = this.props;
-      if (value && value !== form.getFieldValue('password')) {
-        callback('Two passwords that you enter is inconsistent!');
-      } else {
-        callback();
-      }
-    };
-  
-    validateToNextPassword = (rule, value, callback) => {
-      const { form } = this.props;
-      if (value && this.state.confirmDirty) {
-        form.validateFields(['confirm'], { force: true });
-      }
-      callback();
-    };
-  
-    handleWebsiteChange = value => {
-      let autoCompleteResult;
-      if (!value) {
-        autoCompleteResult = [];
-      } else {
-        autoCompleteResult = ['.com', '.org', '.net'].map(domain => `${value}${domain}`);
-      }
-      this.setState({ autoCompleteResult });
-    };
-  
-    render() {
-      const { getFieldDecorator } = this.props.form;
-      const { autoCompleteResult } = this.state;
-  
-      const formItemLayout = {
-        labelCol: {
-          xs: { span: 24 },
-          sm: { span: 6 },
-        },
-        wrapperCol: {
-          xs: { span: 24 },
-          sm: { span: 18 },
-        },
-      };
-      const tailFormItemLayout = {
-        wrapperCol: {
-          xs: {
-            span: 24,
-            offset: 0,
-          },
-          sm: {
-            span: 16,
-            offset: 8,
-          },
-        },
-      };
-      const prefixSelector = getFieldDecorator('prefix', {
-        initialValue: '86',
-      })(
-        <Select style={{ width: 70 }}>
-          <Option value="86">+86</Option>
-          <Option value="87">+87</Option>
-        </Select>,
-      );
-  
-      const websiteOptions = autoCompleteResult.map(website => (
-        <AutoCompleteOption key={website}>{website}</AutoCompleteOption>
-      ));
-  
-      return (
-        <Form {...formItemLayout} onSubmit={this.handleSubmit}>
-          <Form.Item label="E-mail">
-            {getFieldDecorator('email', {
-              rules: [
-                {
-                  type: 'email',
-                  message: 'The input is not valid E-mail!',
-                },
-                {
-                  required: true,
-                  message: 'Please input your E-mail!',
-                },
-              ],
-            })(<Input className="ant-col-sm-12" />)}
-          </Form.Item>
-          <Form.Item label="Password" hasFeedback>
-            {getFieldDecorator('password', {
-              rules: [
-                {
-                  required: true,
-                  message: 'Please input your password!',
-                },
-                {
-                  validator: this.validateToNextPassword,
-                },
-              ],
-            })(<Input.Password />)}
-          </Form.Item>
-          <Form.Item label="Company Authorization Document" hasFeedback>
-            {getFieldDecorator('confirm', {
-              rules: [
-                {
-                  required: true,
-                  message: 'Please confirm your password!',
-                },
-                {
-                  validator: this.compareToFirstPassword,
-                },
-              ],
-            })(<Input.Password onBlur={this.handleConfirmBlur} />)}
-          </Form.Item>
-          <Form.Item
-            label={
-              <span>
-                Nickname&nbsp;
-                <Tooltip title="What do you want others to call you?">
-                  <Icon type="question-circle-o" />
-                </Tooltip>
-              </span>
+import {usUnit} from '@/utils/currency';
+import {method} from '@/utils/rules';
+
+const { Option } = Select;
+
+
+const ApplyCreditRules = {
+    creditLimit:{
+        rules: [
+            {
+                required: true,
+                message: 'Please enter desired credit limit.',
+            },
+            {
+                max: 7,
+                message:'Desired credit limit may enter up to 7 digits.'  
             }
-          >
-            {getFieldDecorator('nickname', {
-              rules: [{ required: true, message: 'Please input your nickname!', whitespace: true }],
-            })(<Input />)}
-          </Form.Item>
-          <Form.Item label="Habitual Residence">
-            {getFieldDecorator('residence', {
-              initialValue: ['zhejiang', 'hangzhou', 'xihu'],
-              rules: [
-                { type: 'array', required: true, message: 'Please select your habitual residence!' },
-              ],
-            })(<Cascader options={residences} />)}
-          </Form.Item>
-          <Form.Item label="Phone Number">
-            {getFieldDecorator('phone', {
-              rules: [{ required: true, message: 'Please input your phone number!' }],
-            })(<Input addonBefore={prefixSelector} style={{ width: '100%' }} />)}
-          </Form.Item>
-          <Form.Item label="Website">
-            {getFieldDecorator('website', {
-              rules: [{ required: true, message: 'Please input website!' }],
-            })(
-              <AutoComplete
-                dataSource={websiteOptions}
-                onChange={this.handleWebsiteChange}
-                placeholder="website"
-              >
-                <Input />
-              </AutoComplete>,
-            )}
-          </Form.Item>
-          <Form.Item label="Captcha" extra="We must make sure that your are a human.">
-            <Row gutter={8}>
-              <Col span={12}>
-                {getFieldDecorator('captcha', {
-                  rules: [{ required: true, message: 'Please input the captcha you got!' }],
-                })(<Input />)}
-              </Col>
-              <Col span={12}>
-                <Button>Get captcha</Button>
-              </Col>
-            </Row>
-          </Form.Item>
-          <Form.Item {...tailFormItemLayout}>
-            {getFieldDecorator('agreement', {
-              valuePropName: 'checked',
-            })(
-              <Checkbox>
-                I have read the <a href="">agreement</a>
-              </Checkbox>,
-            )}
-          </Form.Item>
-          <Form.Item {...tailFormItemLayout}>
-            <Button type="primary" htmlType="submit">
-              Register
-            </Button>
-          </Form.Item>
-        </Form>
-      );
+        ],
+    },
+    description:{
+        rules: [
+            {
+                required: true,
+                message:'Please enter the application description.'
+            },
+            method.enOnly('Please enter in English only.'),
+            {
+                max: 4000,
+                message:'Application description may enter up to 4000 character.'
+            }
+        ]
     }
-  }
+}
 
 
-export default Form.create({ name: 'applyCredit' })(RegistrationForm);
+class ApplyCreditForm extends React.Component {
+
+	state = {
+		confirmDirty: false,
+	};
+
+	handleSubmit = e => {
+		e.preventDefault();
+		this.props.form.validateFieldsAndScroll((err, values) => {
+			if (!err) {
+				console.log('Received values of form: ', values);
+			}
+		});
+	};
+
+	handleConfirmBlur = e => {
+		const { value } = e.target;
+		this.setState({ confirmDirty: this.state.confirmDirty || !!value });
+	};
+
+	compareToFirstPassword = (rule, value, callback) => {
+		const { form } = this.props;
+		if (value && value !== form.getFieldValue('password')) {
+			callback('Two passwords that you enter is inconsistent!');
+		} else {
+			callback();
+		}
+	};
+
+	validateToNextPassword = (rule, value, callback) => {
+		const { form } = this.props;
+		if (value && this.state.confirmDirty) {
+			form.validateFields(['confirm'], { force: true });
+		}
+		callback();
+	};
+
+
+	render() {
+		const { getFieldDecorator,getFieldValue,getFieldError } = this.props.form;
+
+		const formItemLayout = {
+			labelCol: {
+				xs: { span: 24 },
+				sm: { span: 4 },
+			},
+			wrapperCol: {
+				xs: { span: 24 },
+				sm: { span: 20 },
+			},
+		};
+		const tailFormItemLayout = {
+			wrapperCol: {
+				xs: {
+					span: 24,
+					offset: 0,
+				},
+				sm: {
+					span: 20,
+					offset: 4,
+				},
+			},
+		};
+
+		return (
+			<Form {...formItemLayout} onSubmit={this.handleSubmit}>
+				<Form.Item label="Desired Credit Limit">
+					{getFieldDecorator('creditLimit',ApplyCreditRules.creditLimit)(
+                        <div className="col-6">
+                            <Input addonBefore={usUnit} maxLength={7} />
+                        </div>
+                    )}
+                </Form.Item>
+                <Form.Item label="Application Description">
+                    {getFieldDecorator('description',ApplyCreditRules.description)(
+                        <div className={`col-8 textarea-with-number ${getFieldError('description') && 'textarea-with-number-error'}`}>
+                            <Input.TextArea maxLength={4000} style={{height: 200}} />
+                            <div className="textarea-span">{getFieldValue('description')?getFieldValue('description').length:0}/4000</div>
+                        </div>
+                    )}
+                </Form.Item>
+			
+				<Form.Item {...tailFormItemLayout}>
+					<Button type="primary" htmlType="submit">
+                        Submit
+                    </Button>
+                    <Button style={{marginLeft: 10,}}>
+                        Save Draft
+                    </Button>
+				</Form.Item>
+			</Form>
+		);
+	}
+}
+
+
+export default Form.create({ name: 'applyCredit' })(ApplyCreditForm);
