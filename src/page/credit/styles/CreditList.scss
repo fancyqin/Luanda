@@ -1,0 +1,80 @@
+@import '../../../styles/_var';
+
+.vo-main-wrap{
+  margin-left: 230px;
+  padding: 20px 20px 0 20px;
+}
+.vo-main{
+  margin: 0 auto;
+  max-width: 1280px;
+  background: #f5f7fa;
+  padding-top: 20px;
+}
+
+.vo-main-title{
+  h3{
+    font-size: 16px;
+    font-weight: 600;
+  }
+  span{
+    font-weight: 500;
+    margin-left: 10px;
+    color: $color-font_light;
+  }
+}
+
+.vo-block{
+  padding: 20px;
+  margin-bottom: 20px;
+  color: $color-font_light;
+}
+
+.mb-10{
+  margin-bottom: 10px;
+}
+
+/* credit */
+.credit-info{
+  @extend .vo-block;
+  padding: 30px;
+  background: #fff;
+  font-size: 14px;
+  line-height: 1.5;
+  p{
+    margin: 0;
+  }
+  .remaining{
+    color:$color-font_link;
+    @extend .mb-10;
+  }
+  h3{
+    font-size: 36px;
+    color:$color-font_link;
+  }
+  .credit-info_bottom{
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .total{
+    font-size: 18px;
+    color: $color-font_dark;
+    padding-right: 20px;
+    border-right: 1px solid $color-bd_normal;
+  }
+  .used{
+    font-size: 18px;
+    color: $color-font_dark;
+    padding-left: 20px;
+    margin-right: 40px;
+  }
+  .total,.used{
+    span{
+      font-size: 14px;
+      color: $color-font_light;
+    }
+  }
+}
+
+.credit-main{
+  @extend .vo-block;
+}

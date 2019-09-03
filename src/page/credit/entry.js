@@ -5,7 +5,7 @@ import ApplyCreditPage from './view/ApplyCreditPage'
 import CreditDetailPage from './view/CreditDetailPage'
 import CreditListPage from './view/CreditListPage'
 // import NotFoundPage from '@/components/noFound/NoFoundPage'
-import 'antd/dist/antd.css';
+import '../../styles/ant.less'
 import './index.scss';
 
 

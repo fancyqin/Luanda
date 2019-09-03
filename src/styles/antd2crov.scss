@@ -1,6 +1,4 @@
-$primary-color: #fe8019;
-
-
+@import './_var';
 body{
     background-color: initial;
     font-family: "Roboto",Arial,"Microsoft YaHei",sans-serif;
@@ -16,6 +14,13 @@ body{
     vertical-align: middle;
     line-height: 1.5;
     box-sizing: border-box;
+}
+.ant-input:hover,.ant-cascader-input:hover,.ant-cascader-picker-label:hover + .ant-cascader-input{
+    border-color: #a1aab2;
+}
+.ant-input:focus,.ant-cascader-input:focus,.ant-cascader-picker-label:focus + .ant-cascader-input{
+    border-color: $color-main;
+    box-shadow: none;
 }
 .ant-form-item-label{
     font-size: 14px;

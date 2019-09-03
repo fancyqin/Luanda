@@ -3,7 +3,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const {entries,plugins} = require('./page.config')
-// const AntdScssThemePlugin = require('antd-scss-theme-plugin')
 
 const ROOTPATH = path.join(process.cwd());
 const APP_PATH = path.join(ROOTPATH, '/src')
@@ -40,6 +39,9 @@ module.exports = {
             },
             {
                 test:/\.scss$/,
+                // issuer: {
+                //     exclude: /\.less$/,
+                // },
                 use: [
                     MiniCssExtractPlugin.loader,
                     'css-loader',
@@ -52,14 +54,23 @@ module.exports = {
                             }
                         }
                     },
-                    {
-                        // loader: AntdScssThemePlugin.themify('sass-loader'),
-                        loader:'sass-loader',
-                        options:{
-                            implementation: require('dart-sass')
-                        }
-                    }
+                    'sass-loader'
                 ]
+            },
+            // {
+            //     test: /\.scss$/,
+            //     issuer: /\.less$/,
+            //     use: {
+            //       loader: './sassVarsToLess.js' // Change path if necessary
+            //     }
+            // },
+            {
+                test: /\.less$/,
+                use: [
+                    MiniCssExtractPlugin.loader,
+                    'css-loader',
+                    'less-loader',
+                ],
             },
             {
                 test: /\.(eot|woff|ttf|woff2|svg|gif|png|jpg)(\?|$)/,
@@ -98,7 +109,6 @@ module.exports = {
 			filename: "[name]/[name].css",
 			chunkFilename: "[id].css"
         }),
-        // new AntdScssThemePlugin(path.join(ROOTPATH, '/src/styles/antd2crov.scss'))
     ],
     
 }
