@@ -43,3 +43,9 @@ body{
 .ant-form-item-required::before{
     font-family: inherit
 }
+
+.ant-select-focused .ant-select-selection,
+.ant-select-selection:focus,
+.ant-select-selection:active {
+    box-shadow: none;
+}

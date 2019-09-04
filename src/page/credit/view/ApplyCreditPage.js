@@ -52,7 +52,7 @@ class ApplyCreditPage extends Component {
                             <div className="vo-main-title-text">Apply for Crov Credit</div>
                         </div>
                         <div className="vo-block">
-                            <ApplyCreditFrom />
+                            <ApplyCreditFrom initValue={data} />
                         </div>
                     </div>}
                 </div>
