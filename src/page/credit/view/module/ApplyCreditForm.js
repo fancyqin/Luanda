@@ -205,7 +205,15 @@ const ApplyCreditRules = {
             method.phone('Please provide a valid phone number.',CONST.US_COUNTRY_CODE)
         ]
     },
-
+    agreement:{
+        rules:[
+            (rule, value, callback)=>{
+                callback(value?undefined:'afkjsalkfjsalfk')
+            }
+        ],
+        valuePropName:'checked',
+        initialValue: false
+    }
 }
 
 
@@ -267,7 +275,7 @@ class ApplyCreditForm extends React.Component {
 			},
         };
         
-        let agreement = initValue.agreement ? initValue.agreement.replace(/\r\n/g,'<br/>'):'';
+        let agreementText = initValue.agreement ? initValue.agreement.replace(/\r\n/g,'<br/>'):'';
 
 		return (
             <Form {...formItemLayout} onSubmit={this.handleSubmit}>
@@ -414,13 +422,18 @@ class ApplyCreditForm extends React.Component {
                 </Form.Item>
 
                 <h2 className="form-block-title">Agreement</h2>
-                <div className="ant-row ant-form-item">
-                    <div className="ant-col-sm-4">&nbsp;</div>
+                <Form.Item {...tailFormItemLayout} style={{marginBottom: 0}}>
                     <div className="ant-col-sm-18">
-                        <Input.TextArea style={{height: 300}} value={agreement} readOnly />
+                        <Input.TextArea style={{height: 300}} value={agreementText} readOnly />
                     </div>
-                    
-                </div>
+                </Form.Item>
+                <Form.Item {...tailFormItemLayout}>
+                    {getFieldDecorator('agreementCheck', ApplyCreditRules.agreement)(
+                        <Checkbox>I have read and agree to the above Terms and Conditions.</Checkbox>,
+                    )}
+                </Form.Item>
+
+                
                 
 				<Form.Item {...tailFormItemLayout}>
 					<Button type="primary" htmlType="submit">
