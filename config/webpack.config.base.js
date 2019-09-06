@@ -11,6 +11,7 @@ module.exports = {
         ...entries
     },
     output:{
+        publicPath:'/',
         filename: '[name]/[name].js',
         path: path.join(ROOTPATH,'/dist')
     },
@@ -103,7 +104,7 @@ module.exports = {
         }
     },
     plugins:[
-        new CleanWebpackPlugin(),
+        // new CleanWebpackPlugin(),
         ...plugins,
         new MiniCssExtractPlugin({
 			filename: "[name]/[name].css",

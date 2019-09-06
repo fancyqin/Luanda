@@ -11,3 +11,45 @@ $color-bd_input:#ced3d9;
 
 $color-main:#1470CC;
 $color-main-red: #E64545;
+
+@mixin phone {
+    @media screen and (max-width:767px) {
+      @content;
+    }
+  }
+  
+  @mixin ipad {
+    @media screen and (max-width:1024px) and (min-width:768px) {
+      @content;
+    }
+  }
+  
+  @mixin pc {
+    @media screen and(min-width:1025px){
+      @content;
+    }
+  }
+  
+  @include phone(){
+    .phone-hide,.pad-show,.pc-show{
+      display: none;
+    }
+    .phone-show{
+      display: block;
+    }
+  }
+  
+  @include ipad(){
+    .pad-hide,.phone-show,.pc-show{
+      display: none;
+    }
+    .pad-show{
+      display: block;
+    }
+  }
+  
+  @include pc(){
+    .pc-hide, .phone-show,.pad-show{
+      display: none;
+    }
+  }

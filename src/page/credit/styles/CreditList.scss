@@ -1,58 +1,370 @@
 @import '../../../styles/_var';
 
+$record_payment: #00b300;
+$record_repayment: #2e8ae6;
+$record_carried: #f25555;
+$record_refund: #ff9500;
 
-.vo-block{
+@mixin record($color: $record_payment) {
+  color: $color;
+  border: 1px solid $color;
+  font-size: 12px;
+  padding: 1px 6px;
+  line-height: 1.5;
+  border-radius: 6px;
+}
+
+.break{
+  word-break: break-word;
+}
+.shadow{
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px;
+}
+
+.light-link {
+  color: $record_repayment;
+}
+
+.vo-main-wrap {
+  margin-left: 230px;
+  padding: 20px 20px 0 20px;
+}
+.vo-main {
+  margin: 0 auto;
+  max-width: 1280px;
+  background: #f5f7fa;
+}
+
+.ant-breadcrumb{
+  margin-bottom: 20px;
+}
+
+.vo-main-title {
+  h3 {
+    font-size: 18px;
+    font-weight: 600;
+  }
+  span {
+    font-size: 14px;
+    font-weight: 500;
+    margin-left: 10px;
+    color: $color-font_light;
+  }
+}
+
+.vo-block {
   padding: 20px;
   margin-bottom: 20px;
   color: $color-font_light;
 }
 
-.mb-10{
+.mb-10 {
   margin-bottom: 10px;
 }
 
 /* credit */
-.credit-info{
+p {
+  margin: 0;
+}
+.credit-info {
   @extend .vo-block;
+  @extend .shadow;
   padding: 30px;
   background: #fff;
   font-size: 14px;
   line-height: 1.5;
-  p{
+  p {
     margin: 0;
   }
-  .remaining{
-    color:$color-font_link;
+  .remaining {
+    color: $color-font_link;
     @extend .mb-10;
   }
-  h3{
+  h3 {
     font-size: 36px;
-    color:$color-font_link;
+    color: $color-font_link;
   }
-  .credit-info_bottom{
+
+  &_invalid {
+    .credit_status {
+      font-size: 24px;
+      vertical-align: middle;
+      border: 1px solid #e64545;
+      padding: 0 10px;
+      border-radius: 6px;
+      color: #e64545;
+    }
+  }
+  &_frozen {
+    .credit_status {
+      font-size: 24px;
+      vertical-align: middle;
+      padding: 0 10px;
+      border-radius: 6px;
+      border: 1px solid #ff9500;
+      margin-left: 11px;
+      color: #ff9500;
+    }
+    .remaining,h3 {
+      color: #b3b3b3;
+    }
+  }
+
+  .credit-info_bottom {
     display: flex;
     flex-wrap: wrap;
+    align-items: flex-start;
   }
-  .total{
+  .total {
     font-size: 18px;
     color: $color-font_dark;
     padding-right: 20px;
     border-right: 1px solid $color-bd_normal;
   }
-  .used{
+  .used {
     font-size: 18px;
     color: $color-font_dark;
     padding-left: 20px;
     margin-right: 40px;
   }
-  .total,.used{
-    span{
+  .unpaid {
+    margin-right: 40px;
+    p {
+      font-size: 36px;
+      font-weight: 700;
+      color: $color-font_dark;
+    }
+  }
+  .total,
+  .used,
+  .unpaid {
+    span {
       font-size: 14px;
       color: $color-font_light;
     }
   }
 }
 
-.credit-main{
+
+.credit-main {
   @extend .vo-block;
+  @extend .shadow;
+  padding: 0;
+  background: #fff;
+}
+
+//BIll
+.bill-info {
+  background: #f5f7fa;
+  border-radius: 6px;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  &-detail {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  &-item {
+    margin-right: 40px;
+    span {
+      color: $color-font_light;
+    }
+    p {
+      color: $color-font_dark;
+      font-size: 18px;
+    }
+  }
+  &-item:last-of-type {
+    margin-right: 0;
+  }
+  &_repaid{
+    font-size: 18px;
+    color: $record_payment;
+  }
+}
+
+.bill-detail {
+  &-item {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding: 20px;
+    border-bottom: 1px solid $color-bd_normal;
+    @extend .break;
+  }
+  .price {
+    font-size: 18px;
+    color: $color-font_dark;
+    &-repayment {
+      color: $record_repayment;
+    }
+  }
+  .order,.info{
+    color: $color-font_light;
+    a:hover{
+      color:$color-font_link-hover;
+    }
+  }
+  .orderNumber{
+    color: $color-font_light;
+  }
+  .seller{
+    color: $color-font_normal;
+  }
+}
+
+.record_Payment {
+  @include record();
+}
+.record_Repayment {
+  @include record($record_repayment);
+}
+.record_CarriedOver {
+  @include record($record_carried);
+}
+.record_Refund {
+  @include record($record_refund);
+}
+
+//modal
+.mt-20{
+  margin-top: 20px;
+}
+.modal-content{
+  .title{
+    font-size: 14px;
+    color:$color-font_light;
+  }
+  .count{
+    font-size:18px; 
+    color: $color-font_dark;
+  }
+}
+.modal-footer{
+  padding:20px 0;
+  overflow: hidden;
+  .btn{
+    float: right;
+  }
+}
+.btn-groups{
+  .btn{
+    margin-bottom: 10px;
+  }
+}
+
+//tabs
+.tabCard{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: $color-font_light;
+  .tab-title{
+    font-size: 16px;
+  }
+}
+
+// overwrite ant-tabs
+.ant-tabs-bar,
+.ant-tabs.ant-tabs-card .ant-tabs-card-bar .ant-tabs-nav-container,
+.ant-tabs.ant-tabs-card .ant-tabs-card-bar .ant-tabs-tab,.ant-tabs.ant-tabs-card .ant-tabs-card-bar .ant-tabs-tab-active{
+  height: 66px;
+}
+.ant-tabs.ant-tabs-card .ant-tabs-card-bar .ant-tabs-tab-active{
+  .tab-title{
+    color: $color-font_dark;
+    font-weight: 600;
+  }
+}
+.ant-tabs.ant-tabs-card .ant-tabs-card-bar .ant-tabs-tab{
+  padding:10px 35px;
+  line-height: 1.5;
+  vertical-align: top;
+  text-align: center;
+  &:last-of-type{
+    border-right: none;
+  }
+}
+.ant-tabs-content {
+  padding: 20px;
+}
+
+.ant-tabs.ant-tabs-card .ant-tabs-card-bar .ant-tabs-tab-active {
+  border-color: #fff;
+  // border-bottom-color: $color-bd_normal;
+}
+
+.ant-tabs.ant-tabs-card .ant-tabs-card-bar .ant-tabs-tab {
+  border-radius: 0;
+  background: #fff;
+  border-top-color: #fff;
+}
+
+// overwrite modal
+.ant-modal-title{
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 1.5;
+}
+.ant-modal-close{
+  color:$color-font_dark;
+  .ob-icon{
+    font-size: 20px;
+  }
+}
+.ant-modal-header{
+  border-bottom: none;
+  padding:20px;
+}
+.ant-modal-body{
+  padding:0 20px;
+}
+.ant-modal-footer{
+  border-top: none;
+  padding:20px;
+}
+
+//overwrite input
+.ant-input-group-addon{
+  background: #f5f7fa;
+  border-color:$color-bd_input;
+}
+
+
+
+@include phone(){
+  .credit-info{
+    padding: 20px;
+    h3{
+      font-size: 20px;
+    }
+    &_frozen .credit_status{
+      font-size: 14px;
+    }
+    .total{
+      flex-basis: 50%;
+    }
+    .used{
+      margin-right: 0;
+      flex-basis: 50%;      
+    }
+  }
+  .credit-btns .btn-main,.credit-btns .psw{
+    display: block;
+  }
+  .bill-info-item{
+    margin-right: 0;
+  }
+  .bill-detail-item{
+    padding: 10px 0;
+  }
+  .ant-tabs{
+    font-size: 12px;
+  }
 }

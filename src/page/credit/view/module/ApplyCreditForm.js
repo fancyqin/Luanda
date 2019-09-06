@@ -208,11 +208,17 @@ const ApplyCreditRules = {
     agreement:{
         rules:[
             (rule, value, callback)=>{
-                callback(value?undefined:'afkjsalkfjsalfk')
+                callback(value?undefined:'Please read term carefully and select to agree.')
             }
         ],
         valuePropName:'checked',
         initialValue: false
+    },
+    fileRule:{
+        rules:[{
+            required: true,
+            message:'Please fsfe fe f '
+        }]
     }
 }
 
@@ -225,7 +231,7 @@ class ApplyCreditForm extends React.Component {
 	}
 
 	componentDidMount(){
-		let {initValue,form} = this.props;
+		let {initValue={},form} = this.props;
         let {setFieldsValue} = form;
         setFieldsValue(initValue)
 	}
@@ -248,9 +254,9 @@ class ApplyCreditForm extends React.Component {
         const {initValue,form} = this.props;
         const { getFieldDecorator,getFieldValue,getFieldError } = form;
         const nowYear = new Date().getFullYear();
-        let yearOptions = [<Option value=''>Please Select</Option>];
+        let yearOptions = [<Option key={'option-0'} value=''>Please Select</Option>];
         for(let i = nowYear; i> nowYear - 200;i--){
-            yearOptions.push(<Option value={i}>{i}</Option>)
+            yearOptions.push(<Option key={'option-'+i} value={i}>{i}</Option>)
         }
 		const formItemLayout = {
 			labelCol: {
@@ -412,8 +418,10 @@ class ApplyCreditForm extends React.Component {
                     - Supported formats: PDF, Doc, Docx, Xls, Xlsx, JPG, JPEG, PNG.
                 </div>
                 <Form.Item label="IRS">
-                    {getFieldDecorator('irs',{})(
-                        <Upload name="logo" action="/upload.do">
+                    {getFieldDecorator('fileIrs',ApplyCreditRules.fileRule)(
+                        <Upload name="fileIrs" action="//upload-u.crov.com/uploadFile" accept="image/*,.pdf" beforeUpload={file=>{
+                            console.log(file)
+                        }}>
                             <Button>
                             Upload
                             </Button>
@@ -424,13 +432,16 @@ class ApplyCreditForm extends React.Component {
                 <h2 className="form-block-title">Agreement</h2>
                 <Form.Item {...tailFormItemLayout} style={{marginBottom: 0}}>
                     <div className="ant-col-sm-18">
-                        <Input.TextArea style={{height: 300}} value={agreementText} readOnly />
+                        <Input.TextArea style={{height: 300,resize:'none'}} value={agreementText} readOnly />
                     </div>
                 </Form.Item>
                 <Form.Item {...tailFormItemLayout}>
-                    {getFieldDecorator('agreementCheck', ApplyCreditRules.agreement)(
-                        <Checkbox>I have read and agree to the above Terms and Conditions.</Checkbox>,
-                    )}
+                    <div className ="ant-col-sm-18" style={{display:'flex',justifyContent:'space-between',lineHeight:1.5}}>
+                        {getFieldDecorator('agreementCheck', ApplyCreditRules.agreement)(
+                            <Checkbox>I have read and agree to the above Terms and Conditions.</Checkbox>
+                        )}
+                        <a style={{whiteSpace:'nowrap',marginLeft: 20}} href={initValue.agreementPdfUrl} target="_blank"><i className="ob-icon icon-print"></i> Print</a>
+                    </div>
                 </Form.Item>
 
                 

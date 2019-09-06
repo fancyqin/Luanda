@@ -19,11 +19,8 @@ class ApplyCreditPage extends Component {
         document.querySelector('body').classList.add('react-apply-credit')
         
         CreditDao.getApplyCredit().then(result=> {
-            let {data,status} = result.data;
+            let {data} = result;
             let {creditStatus} = data;
-            // if(status === '2'){
-            //     window.location.replace('/error/403')
-            // }
             // if(creditStatus === '1'){
             //     history.replace('/')
             // }

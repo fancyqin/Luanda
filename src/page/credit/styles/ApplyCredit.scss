@@ -9,6 +9,9 @@ body{
     .vo-sider{
         display: none;
     }
+    .apply-credit{
+        margin-left: 0;
+    }
 }
 .textarea-with-number{
     position:relative;
@@ -43,7 +46,6 @@ body{
 
 .apply-credit{
     font-size: 30px;
-    margin-left: 0;
     .vo-block{
         padding: 40px 20px;
     }

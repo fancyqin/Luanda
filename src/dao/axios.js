@@ -30,11 +30,9 @@ export const transFormData = data => {
     return result;
 }
 
-const instance = axios.create({
-    baseURL: setting.server
-})
 
-instance.defaults.timeout = setting.timeout;
+axios.defaults.timeout = setting.timeout;
 
 
-export default instance
+
+export default axios

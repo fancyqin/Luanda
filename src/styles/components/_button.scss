@@ -1,0 +1,38 @@
+.btn {
+    text-decoration: none;
+    outline: 0;
+    line-height: 1.5;
+    display: inline-block;
+    vertical-align: middle;
+    zoom: 1;
+    text-align: center;
+    color: #222;
+    border: solid 1px #ced3d9;
+    background-color: #f5f7fa;
+    padding: 5px 15px;
+    border-radius: 6px;
+    cursor: pointer;
+    box-sizing: border-box;
+    &:hover{
+      color: #222;
+      background-color: #e6ecf2;
+    }
+  }
+  
+  .btn-main {
+    color: #fff;
+    border: solid 1px #e64545;
+    background-color: #e64545;
+    &:hover{
+      color: #fff;
+      border: solid 1px #d92121;
+      background-color: #d92121;
+    }
+  }
+  
+  .btn-groups{
+    .btn{
+      margin-right: 10px;
+    }
+  }
+  
