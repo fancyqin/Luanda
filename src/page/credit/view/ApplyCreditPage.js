@@ -39,10 +39,12 @@ class ApplyCreditPage extends Component {
     }
 
     render() {
+        let {history} = this.props;
         let {pageLoading,data} = this.state;
         let {creditStatus} = data;
+        let applying = creditStatus === '2';
         return (
-            <div className="vo-main-wrap apply-credit">
+            <div className={`vo-main-wrap apply-credit ${applying && 'apply-credit-applying'}`} >
                 <div className="vo-main">
                     {!pageLoading && <div>
                         <div className="vo-main-title">

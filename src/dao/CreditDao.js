@@ -23,11 +23,13 @@ export default {
             url: '/applyCredit'
         })
     },
-    // postApplyCredit: data=>{
-    //     return creditAxios({
-    //         method:'post',
-    //     })
-    // },
+    postApplyCredit: data=>{
+        return creditAxios({
+            method:'post',
+            url:'/submitApplyCredit',
+            data
+        })
+    },
     getCreditInfo: ()=>{
         return creditAxios({
             method:"get",

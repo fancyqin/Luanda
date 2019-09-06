@@ -1,0 +1,88 @@
+@import '../../../styles/_var';
+$record_payment:#00B300;
+$record_repayment:#2E8AE6;
+$record_carried:#F25555;
+$record_refund:#FF9500;
+@mixin record($color:$record_payment) {
+  color:$color;
+  border:1px solid $color;
+  padding: 1px 6px;
+  border-radius: 6px;
+  font-size: 12px;
+}
+//BIll
+.bill-info {
+  background: #f5f7fa;
+  border-radius: 6px;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  &-detail {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  &-item {
+    margin-right: 40px;
+    span {
+      color: $color-font_light;
+    }
+    p {
+      color: $color-font_dark;
+      font-size: 18px;
+    }
+  }
+  &-item:last-of-type {
+    margin-right: 0;
+  }
+  &_repaid {
+    font-size: 18px;
+    color: $record_payment;
+  }
+}
+
+.bill-detail {
+  &-item {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding: 20px;
+    border-bottom: 1px solid $color-bd_normal;
+    @extend .break;
+  }
+  .price {
+    font-size: 18px;
+    color: $color-font_dark;
+    &-repayment {
+      color: $record_repayment;
+    }
+  }
+  .order,
+  .info {
+    color: $color-font_light;
+    a:hover {
+      color: $color-font_link-hover;
+    }
+  }
+  .orderNumber {
+    color: $color-font_light;
+  }
+  .seller {
+    color: $color-font_normal;
+  }
+}
+
+.record_Payment {
+  @include record();
+}
+.record_Repayment {
+  @include record($record_repayment);
+}
+.record_CarriedOver {
+  @include record($record_carried);
+}
+.record_Refund {
+  @include record($record_refund);
+}

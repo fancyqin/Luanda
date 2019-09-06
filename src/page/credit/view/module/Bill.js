@@ -21,7 +21,7 @@ function generateBillDetail(arr) {
     let statusLabel = CREDIT_RECORD_STATUS[item.status];
     return (
       <div className="bill-detail-item" key={idx}>
-        <div style={{flexBasis:'100%'}}>
+        <div className='detail-wrap'>
           {item.list.map((item2, idx2) => {
             let orderTemp;
             if (item2.orderNumber) {

@@ -57,9 +57,9 @@ body{
         font-size: 16px;
         font-weight: bold;
         padding-bottom: 5px;
-        border-bottom: 1px solid $color-bd_normal;
-        margin-bottom: 20px;
-        margin-top: 20px;
+        border-top: 1px solid $color-bd_normal;
+        padding-top: 40px;
+        margin-top: 30px;
     }
     .doc-info{
         background: #f5f7fa;
@@ -68,4 +68,17 @@ body{
         color: #888;
         margin-bottom: 20px;
     }
+    &.apply-credit-applying{
+        .ant-form-item{
+            margin-bottom: 10px;
+        }
+        .applying-inner{
+            color: #222;
+            word-wrap: break-word;
+        }
+        .ant-form-item-label > label::after {
+            content: ':';
+        }
+    }
 }
+

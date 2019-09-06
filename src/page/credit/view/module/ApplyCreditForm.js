@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import {
 	Form,
     Input,
@@ -11,12 +11,14 @@ import {
 	Col,
     Checkbox,
     Upload,
-	Button,
+    message
 } from 'antd';
 
 import {usUnit} from '@/utils/currency';
 import {method} from '@/utils/rules';
 import CONST from '@/utils/const';
+import Button from '@/components/button/Button';
+import CreditDao from '@/dao/CreditDao';
 const { Option } = Select;
 
 
@@ -227,32 +229,59 @@ class ApplyCreditForm extends React.Component {
 
 	constructor(props){
 		super(props);
-		
 	}
 
 	componentDidMount(){
 		let {initValue={},form} = this.props;
         let {setFieldsValue} = form;
-        setFieldsValue(initValue)
+        initValue.creditStatus !== '2' &&  setFieldsValue(initValue)
 	}
 
 	state = {
 		confirmDirty: false
-	};
+    };
+    
+    submitApplyCredit(submitData){
+        CreditDao.postApplyCredit(submitData).then(result =>{
+            if(result){
+                message.success(submitData.draft ? 'Submit Success!':'Save Success!',3,()=>{
+                    !submitData.draft && window.location.reload();
+                });
+            }
+        })
+    }
 
 	handleSubmit = e => {
 		e.preventDefault();
 		this.props.form.validateFieldsAndScroll((err, values) => {
 			if (!err) {
-				console.log('Received values of form: ', values);
+                values.draft = false;
+                console.log('submit values of form: ', values);
+                this.submitApplyCredit(values);
 			}
 		});
-	};
+    };
+    handleSaveDraft = e=>{
+        e.preventDefault();
+        let values = this.props.form.getFieldsValue();
+        values.draft = true;
+        console.log('draft values of form: ', values);
+        this.submitApplyCredit(values);
+    }
 
+    getApplyingFieldDecorator= (name,options)=> {
+        return () => {
+            let {initValue} = this.props;
+            return <div className="applying-inner">{initValue[name]}</div>
+        }
+    } 
+    
 
 	render() {
         const {initValue,form} = this.props;
         const { getFieldDecorator,getFieldValue,getFieldError } = form;
+        let applying = initValue.creditStatus === '2';
+        let getApplyFieldDecorator = applying ?this.getApplyingFieldDecorator:getFieldDecorator;
         const nowYear = new Date().getFullYear();
         let yearOptions = [<Option key={'option-0'} value=''>Please Select</Option>];
         for(let i = nowYear; i> nowYear - 200;i--){
@@ -284,32 +313,33 @@ class ApplyCreditForm extends React.Component {
         let agreementText = initValue.agreement ? initValue.agreement.replace(/\r\n/g,'<br/>'):'';
 
 		return (
-            <Form {...formItemLayout} onSubmit={this.handleSubmit}>
+            <Form {...formItemLayout}>
             
 				<Form.Item label="Desired Credit Limit">
                     <div className="ant-col-sm-12">
-                        {getFieldDecorator('creditLimit',ApplyCreditRules.creditLimit)(
+                        {getApplyFieldDecorator('creditLimit',ApplyCreditRules.creditLimit)(
                             <Input addonBefore={usUnit} maxLength={7} />
                         )}
                     </div>
                 </Form.Item>
                 <Form.Item label="Application Description">
-                    <div className={`ant-col-sm-16 textarea-with-number ${getFieldError('description') && 'textarea-with-number-error'}`}>
-                        {getFieldDecorator('description',ApplyCreditRules.description)(
-                            <Input.TextArea maxLength={4000} style={{height: 200}} />
-                        )}
-                        <div className="textarea-span">{getFieldValue('description')?getFieldValue('description').length:0}/4000</div>
-                    </div>
+                    {!applying?<div className={`ant-col-sm-16 textarea-with-number ${getFieldError('description') && 'textarea-with-number-error'}`}>
+                    {getApplyFieldDecorator('description',ApplyCreditRules.description)(
+                        <Input.TextArea maxLength={4000} style={{height: 200}} />
+                    )}
+                    <div className="textarea-span">{getFieldValue('description')?getFieldValue('description').length:0}/4000</div>
+                </div>:<div>{initValue.description}</div>}
+                    
                 </Form.Item>
 
 
                 <h2 className="form-block-title">Company Information</h2>
-                <Form.Item label="Business Name" required>
+                <Form.Item label="Business Name" required={!applying}>
                     <div>{initValue.businessName}</div>
                 </Form.Item>
                 <Form.Item label="Year Founeded">
                     <div className="ant-col-sm-12">
-                        {getFieldDecorator('yearFounded',ApplyCreditRules.yearFounded)(
+                        {getApplyFieldDecorator('yearFounded',ApplyCreditRules.yearFounded)(
                             <Select>
                                 {yearOptions}
                             </Select>
@@ -318,7 +348,7 @@ class ApplyCreditForm extends React.Component {
                 </Form.Item>
                 <Form.Item label="EIN">
                     <div className="ant-col-sm-12">
-                        {getFieldDecorator('ein',ApplyCreditRules.ein)(
+                        {getApplyFieldDecorator('ein',ApplyCreditRules.ein)(
                             <Input maxLength={12} />
                         )}
                     </div>
@@ -328,28 +358,28 @@ class ApplyCreditForm extends React.Component {
                 <h2 className="form-block-title">Bank Information</h2>
                 <Form.Item label="Bank Name">
                     <div className="ant-col-sm-12">
-                        {getFieldDecorator('bankName',ApplyCreditRules.bankName)(
+                        {getApplyFieldDecorator('bankName',ApplyCreditRules.bankName)(
                             <Input maxLength={200} />
                         )}
                     </div>
                 </Form.Item>
                 <Form.Item label="Bank Address">
                     <div className="ant-col-sm-18">
-                        {getFieldDecorator('bankAddress',ApplyCreditRules.bankAddress)(
+                        {getApplyFieldDecorator('bankAddress',ApplyCreditRules.bankAddress)(
                             <Input maxLength={500} />
                         )}
                     </div>
                 </Form.Item>
-                <Form.Item label="Bank Name">
+                <Form.Item label="Account Number">
                     <div className="ant-col-sm-18">
-                        {getFieldDecorator('bankAccountNumber',ApplyCreditRules.bankAccountNumber)(
+                        {getApplyFieldDecorator('bankAccountNumber',ApplyCreditRules.bankAccountNumber)(
                             <Input />
                         )}
                     </div>
                 </Form.Item>
-                <Form.Item label="Bank Name">
+                <Form.Item label="Years Account Established">
                     <div className="ant-col-sm-12">
-                        {getFieldDecorator('bankEstablishYear',ApplyCreditRules.bankEstablishYear)(
+                        {getApplyFieldDecorator('bankEstablishYear',ApplyCreditRules.bankEstablishYear)(
                             <Select>
                                 {yearOptions}
                             </Select>
@@ -360,28 +390,28 @@ class ApplyCreditForm extends React.Component {
                 <h2 className="form-block-title">Owner Information</h2>
                 <Form.Item label="Owner Name">
                     <div className="ant-col-sm-12">
-                        {getFieldDecorator('ownerName',ApplyCreditRules.ownerName)(
+                        {getApplyFieldDecorator('ownerName',ApplyCreditRules.ownerName)(
                             <Input maxLength={100} />
                         )}
                     </div>
                 </Form.Item>
                 <Form.Item label="Email">
                     <div className="ant-col-sm-12">
-                        {getFieldDecorator('ownerEmail',ApplyCreditRules.ownerEmail)(
+                        {getApplyFieldDecorator('ownerEmail',ApplyCreditRules.ownerEmail)(
                             <Input maxLength={160} />
                         )}
                     </div>
                 </Form.Item>
                 <Form.Item label="Phone">
                     <div className="ant-col-sm-12">
-                        {getFieldDecorator('ownerPhone',ApplyCreditRules.ownerPhone)(
+                        {getApplyFieldDecorator('ownerPhone',ApplyCreditRules.ownerPhone)(
                             <Input addonBefore={'+1'} maxLength={20} />
                         )}
                     </div>
                 </Form.Item>
                 <Form.Item label="SSN">
                     <div className="ant-col-sm-12">
-                        {getFieldDecorator('ownerSsn',ApplyCreditRules.ownerSsn)(
+                        {getApplyFieldDecorator('ownerSsn',ApplyCreditRules.ownerSsn)(
                             <Input maxLength={50} />
                         )}
                     </div>
@@ -391,21 +421,21 @@ class ApplyCreditForm extends React.Component {
                 <h2 className="form-block-title">Contact Information</h2>
                 <Form.Item label="Contact Name">
                     <div className="ant-col-sm-12">
-                        {getFieldDecorator('contactName',ApplyCreditRules.contactName)(
+                        {getApplyFieldDecorator('contactName',ApplyCreditRules.contactName)(
                             <Input maxLength={100} />
                         )}
                     </div>
                 </Form.Item>
                 <Form.Item label="Email">
                     <div className="ant-col-sm-12">
-                        {getFieldDecorator('contactEmail',ApplyCreditRules.contactEmail)(
+                        {getApplyFieldDecorator('contactEmail',ApplyCreditRules.contactEmail)(
                             <Input maxLength={160} />
                         )}
                     </div>
                 </Form.Item>
                 <Form.Item label="Phone">
                     <div className="ant-col-sm-12">
-                        {getFieldDecorator('contactPhone',ApplyCreditRules.contactPhone)(
+                        {getApplyFieldDecorator('contactPhone',ApplyCreditRules.contactPhone)(
                             <Input addonBefore={'+1'} maxLength={20} />
                         )}
                     </div>
@@ -413,12 +443,14 @@ class ApplyCreditForm extends React.Component {
                 
 
                 <h2 className="form-block-title">Documents</h2>
-                <div className="doc-info">
-                    - Less than 10MB for each file.<br/>
-                    - Supported formats: PDF, Doc, Docx, Xls, Xlsx, JPG, JPEG, PNG.
-                </div>
+                {!applying &&(
+                    <div className="doc-info">
+                        - Less than 10MB for each file.<br/>
+                        - Supported formats: PDF, Doc, Docx, Xls, Xlsx, JPG, JPEG, PNG.
+                    </div>
+                )}
                 <Form.Item label="IRS">
-                    {getFieldDecorator('fileIrs',ApplyCreditRules.fileRule)(
+                    {getApplyFieldDecorator('fileIrs',ApplyCreditRules.fileRule)(
                         <Upload name="fileIrs" action="//upload-u.crov.com/uploadFile" accept="image/*,.pdf" beforeUpload={file=>{
                             console.log(file)
                         }}>
@@ -429,35 +461,43 @@ class ApplyCreditForm extends React.Component {
                     )}
                 </Form.Item>
 
-                <h2 className="form-block-title">Agreement</h2>
-                <Form.Item {...tailFormItemLayout} style={{marginBottom: 0}}>
-                    <div className="ant-col-sm-18">
-                        <Input.TextArea style={{height: 300,resize:'none'}} value={agreementText} readOnly />
-                    </div>
-                </Form.Item>
-                <Form.Item {...tailFormItemLayout}>
-                    <div className ="ant-col-sm-18" style={{display:'flex',justifyContent:'space-between',lineHeight:1.5}}>
-                        {getFieldDecorator('agreementCheck', ApplyCreditRules.agreement)(
-                            <Checkbox>I have read and agree to the above Terms and Conditions.</Checkbox>
-                        )}
-                        <a style={{whiteSpace:'nowrap',marginLeft: 20}} href={initValue.agreementPdfUrl} target="_blank"><i className="ob-icon icon-print"></i> Print</a>
-                    </div>
-                </Form.Item>
+                {
+                    !applying && <Fragment>
+
+                        <h2 className="form-block-title">Agreement</h2>
+                        <Form.Item {...tailFormItemLayout} style={{marginBottom: 0}}>
+                            <div className="ant-col-sm-18">
+                                <Input.TextArea style={{height: 300,resize:'none'}} value={agreementText} readOnly />
+                            </div>
+                        </Form.Item>
+                        <Form.Item {...tailFormItemLayout}>
+                            <div className ="ant-col-sm-18" style={{display:'flex',justifyContent:'space-between',lineHeight:1.5}}>
+                                {getApplyFieldDecorator('agreementCheck', ApplyCreditRules.agreement)(
+                                    <Checkbox>I have read and agree to the above Terms and Conditions.</Checkbox>
+                                )}
+                                <a style={{whiteSpace:'nowrap',marginLeft: 20}} href={initValue.agreementPdfUrl} target="_blank"><i className="ob-icon icon-print"></i> Print</a>
+                            </div>
+                        </Form.Item>
+
+                        
+                        
+                        <Form.Item {...tailFormItemLayout}>
+                            <Button type="main" htmlType="submit" onClick={this.handleSubmit}>
+                                Submit
+                            </Button>
+                            <Button style={{marginLeft: 10,}} onClick={this.handleSaveDraft} >
+                                Save Draft
+                            </Button>
+                        </Form.Item>
+                    
+                    </Fragment> 
+                }
 
                 
-                
-				<Form.Item {...tailFormItemLayout}>
-					<Button type="primary" htmlType="submit">
-                        Submit
-                    </Button>
-                    <Button style={{marginLeft: 10,}}>
-                        Save Draft
-                    </Button>
-				</Form.Item>
 			</Form>
 		);
 	}
 }
 
 
-export default Form.create({ name: 'applyCredit' })(ApplyCreditForm);
+export default Form.create({ name: 'applyCredit'})(ApplyCreditForm);

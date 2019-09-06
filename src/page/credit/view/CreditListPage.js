@@ -1,20 +1,13 @@
 import React, { Component, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import { Tabs } from 'antd';
-import Bill from '../components/Bill';
+import Bill from './module/Bill';
 import Button from '@/components/button/Button';
 import { Modal, Input } from 'antd';
 
 import creditDao from '@/dao/creditDao';
 
 const CREDIT_STATUS = [null, 'Valid', 'Invalid', 'Frozen', 'Expired'];
-const CREDIT_RECORD_STATUS = [
-  null,
-  'Payment',
-  'Refund',
-  'Repayment',
-  'Carried Over'
-];
 
 export default class CreditListPage extends Component {
   constructor(props) {
@@ -26,137 +19,14 @@ export default class CreditListPage extends Component {
         remainingCredit: 0,
         usedCredit: 0,
         unpaidCredit: 0,
-        status: 'normal'
+        status: 'Valid'
       },
       billList: []
     };
   }
 
   tabChange(e) {
-    console.log(e);
-  }
-
-  generateBillDetail(arr) {
-    let detailTemp = arr.map((item, idx) => {
-      let statusLabel = CREDIT_RECORD_STATUS[item.status];
-      return (
-        <div className="bill-detail-item" key={idx}>
-          <div>
-            {item.list.map((item2, idx2) => {
-              let orderTemp;
-              if (item2.orderNumber) {
-                orderTemp = (
-                  <Fragment>
-                    ( Order Number:&nbsp;
-                    <a href={item2.orderUrl && item2.orderUrl}>
-                      {item2.orderNumber}
-                    </a>
-                    )
-                  </Fragment>
-                );
-              }
-              return (
-                <div key={idx2}>
-                  <a href={item2.sellerUrl}>{item2.sellerName}</a>
-                  {orderTemp && orderTemp}
-                </div>
-              );
-            })}
-            <div className="info">
-              <span style={{ marginRight: '10px' }}>{item.billDate}</span>
-              <span
-                className={`record_${
-                  statusLabel === 'Carried Over' ? 'CarriedOver' : statusLabel
-                }`}
-              >
-                {statusLabel}
-              </span>
-            </div>
-          </div>
-          <div
-            className={`price ${
-              statusLabel === 'Repayment' ? 'price-repayment' : ''
-            }`}
-          >
-            {' '}
-            {statusLabel === 'Repayment' ? '-US$' : 'US$'} {item.billAmount}
-          </div>
-        </div>
-      );
-    });
-
-    return <div className="bill-detail">{detailTemp && detailTemp}</div>;
-  }
-
-  generateBill(data) {
-    const {
-      remainingAmount,
-      unConfirmedAmount,
-      totalAmount,
-      repaymentDate,
-      detail
-    } = data;
-
-    let remainingTemp,
-      unConfirmedTemp,
-      totalTemp,
-      repaymentDateTemp,
-      detailTemp;
-
-    if (remainingAmount) {
-      remainingTemp = (
-        <div className="bill-info-item">
-          <span>Remaining Amount of Repayment</span>
-          <p>US$ {remainingAmount}</p>
-        </div>
-      );
-    }
-
-    if (unConfirmedAmount) {
-      unConfirmedTemp = (
-        <div className="bill-info-item">
-          <span>Amount to be confirmed of Repayment</span>
-          <p>US$ {unConfirmedAmount}</p>
-        </div>
-      );
-    }
-
-    if (totalAmount) {
-      totalTemp = (
-        <div className="bill-info-item">
-          <span>Amount to be confirmed of Repayment</span>
-          <p>US$ {unConfirmedAmount}</p>
-        </div>
-      );
-    }
-
-    if (repaymentDate) {
-      repaymentDateTemp = (
-        <div className="bill-info-item">
-          <span>Repayment Date</span>
-          <p>{repaymentDate}</p>
-        </div>
-      );
-    }
-
-    if (detail && detail.length) {
-      detailTemp = generateBillDetail(detail);
-    }
-
-    return (
-      <div className="bill">
-        <div className="bill-info">
-          <div className="bill-info-detail">
-            {remainingTemp && remainingTemp}
-            {unConfirmedTemp && unConfirmedTemp}
-            {totalTemp && totalTemp}
-            {repaymentDateTemp && repaymentDateTemp}
-          </div>
-          <div className="bill-info_repaid">Repaid</div>
-        </div>
-        {detailTemp && detailTemp}
-      </div>
-    );
+    // console.log(e);
   }
 
   modalConfirm() {
@@ -169,14 +39,12 @@ export default class CreditListPage extends Component {
     })
   }
 
-  componentWillMount() {
+  componentDidMount() {
     Promise.all([creditDao.getCreditInfo(), creditDao.getBillList()]).then(
       ([creditInfo, billList]) => {
         this.setState({
-          creditInfo: creditInfo.data.data,
-          billList: billList.data.data.list
-        },()=>{
-          console.log(this.state.creditInfo,this.billList)
+          creditInfo: creditInfo.data,
+          billList: billList.data.list
         });
       }
     );
@@ -193,7 +61,7 @@ export default class CreditListPage extends Component {
     let billLabel = ['已出账单', '未出账单', 'To be Confirmed'];
     return (
       <div className="vo-main-wrap">
-        <div className="vo-main">
+        <div className="vo-main credit">
           <div className="vo-main-title">
             <h3>
               Crov Credit
@@ -271,7 +139,6 @@ export default class CreditListPage extends Component {
               {billList.map((item, idx) => {
                 let tabTemp = <div className='tabCard'><p className='tab-title'>{billLabel[idx]}</p></div>;
                 if (idx < 2) {
-                  //TODO: 使用 renderTabBar 封装标签头
                   tabTemp = <div className='tabCard'><p className='tab-title'>{billLabel[idx]}</p> <span>{item.billCycle}</span></div>;
                 }
                 return (
