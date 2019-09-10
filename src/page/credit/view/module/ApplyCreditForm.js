@@ -10,10 +10,12 @@ import {
 	Row,
 	Col,
     Checkbox,
-    Upload,
+    // Upload,
     message
 } from 'antd';
 
+import Upload from '@/components/upload';
+import UploadList from '@/components/upload/uploadList'
 import {usUnit} from '@/utils/currency';
 import {method} from '@/utils/rules';
 import CONST from '@/utils/const';
@@ -27,11 +29,11 @@ const ApplyCreditRules = {
         rules: [
             {
                 required: true,
-                message: 'Please enter desired credit limit.',
+                message: 'Please enter your expected credit limit.',
             },
             {
                 max: 7,
-                message:'Desired credit limit may enter up to 7 digits.'  
+                message:'Expected credit limit: You may enter up to 7 digits.'  
             },
             method.digits('Please enter in digits only.')
 		],
@@ -46,7 +48,7 @@ const ApplyCreditRules = {
             method.enOnly('Please enter in English only.'),
             {
                 max: 4000,
-                message:'Application description may enter up to 4000 character.'
+                message:'Crov Credit application description: You may enter up to 4000 characters.'
             }
 		],
 		validateFirst:true
@@ -86,7 +88,7 @@ const ApplyCreditRules = {
         rules:[
             {
                 required: true,
-                message: 'Please enter you bank address.'
+                message: 'Please enter your bank address.'
             },
             {
                 max: 500,
@@ -99,7 +101,7 @@ const ApplyCreditRules = {
         rules:[
             {
                 required: true,
-                message: 'Please enter you account number.'
+                message: 'Please enter your account number.'
             },
             {
                 max: 50,
@@ -120,7 +122,7 @@ const ApplyCreditRules = {
         rules:[
             {
                 required: true,
-                message: 'Please enter you owner name.'
+                message: 'Please enter your owner name.'
             },
             {
                 max: 100,
@@ -155,7 +157,8 @@ const ApplyCreditRules = {
                 message:'Please provide a valid phone number.'
             },
             method.phone('Please provide a valid phone number.',CONST.US_COUNTRY_CODE)
-        ]
+        ],
+        validateFirst:true,
     },
     ownerSsn:{
         rules:[
@@ -170,7 +173,7 @@ const ApplyCreditRules = {
         rules:[
             {
                 required: true,
-                message: 'Please enter you contact name.'
+                message: 'Please enter your contact name.'
             },
             {
                 max: 100,
@@ -186,7 +189,7 @@ const ApplyCreditRules = {
             },
             {
                 max: 160,
-                message:'Email address: You may enter up to 160 characters.'
+                message:'Email address: You  may enter up to 160 characters.'
             },
             {
                 type:'email',
@@ -205,7 +208,8 @@ const ApplyCreditRules = {
                 message:'Please provide a valid phone number.'
             },
             method.phone('Please provide a valid phone number.',CONST.US_COUNTRY_CODE)
-        ]
+        ],
+        validateFirst:true,
     },
     agreement:{
         rules:[
@@ -219,7 +223,7 @@ const ApplyCreditRules = {
     fileRule:{
         rules:[{
             required: true,
-            message:'Please fsfe fe f '
+            message:'Please upload files.'
         }]
     }
 }
@@ -234,18 +238,30 @@ class ApplyCreditForm extends React.Component {
 	componentDidMount(){
 		let {initValue={},form} = this.props;
         let {setFieldsValue} = form;
+        if(!initValue.yearFounded){
+            initValue.yearFounded = ''
+        }
+        if(!initValue.bankEstablishYear){
+            initValue.bankEstablishYear = ''
+        }
         initValue.creditStatus !== '2' &&  setFieldsValue(initValue)
 	}
 
 	state = {
-		confirmDirty: false
+        uploadFile:{
+            fileEin:[],
+            fileW9:[],
+            fileCompanyAuth:[],
+            fileBalanceSheet:[],
+            fileOthers:[]
+        }
     };
     
     submitApplyCredit(submitData){
         CreditDao.postApplyCredit(submitData).then(result =>{
             if(result){
-                message.success(submitData.draft ? 'Submit Success!':'Save Success!',3,()=>{
-                    !submitData.draft && window.location.reload();
+                message.success(submitData.draft === '0' ? 'Submit Success!':'Save Success!',3,()=>{
+                    submitData.draft === '0' && window.location.reload();
                 });
             }
         })
@@ -255,7 +271,7 @@ class ApplyCreditForm extends React.Component {
 		e.preventDefault();
 		this.props.form.validateFieldsAndScroll((err, values) => {
 			if (!err) {
-                values.draft = false;
+                values.draft = '0';
                 console.log('submit values of form: ', values);
                 this.submitApplyCredit(values);
 			}
@@ -264,22 +280,45 @@ class ApplyCreditForm extends React.Component {
     handleSaveDraft = e=>{
         e.preventDefault();
         let values = this.props.form.getFieldsValue();
-        values.draft = true;
+        values.draft = '1';
         console.log('draft values of form: ', values);
         this.submitApplyCredit(values);
+    }
+
+    renderEnter = str =>{
+        let html2Escape = (sHtml) =>{
+            let temp = document.createElement("div");
+            (temp.textContent != null) ? (temp.textContent = sHtml) : (temp.innerText = sHtml);
+            let output = temp.innerHTML;
+            temp = null;
+            return output;
+        }
+
+        return str? html2Escape(str).replace(/\r?\n/g,'<br/>'):''
     }
 
     getApplyingFieldDecorator= (name,options)=> {
         return () => {
             let {initValue} = this.props;
-            return <div className="applying-inner">{initValue[name]}</div>
+            if(name.indexOf('file')> 0){
+                return <UploadList
+                data={JSON.parse(initValue[name])}
+                className="attach-list"
+                namekey={name}
+                extkey="ext"
+                urikey="uri"
+                fileIdkey="fileId"
+                type="read"
+              />
+            }
+            return <div className="applying-inner">{this.renderEnter(initValue[name])}</div>
         }
     } 
     
 
 	render() {
         const {initValue,form} = this.props;
-        const { getFieldDecorator,getFieldValue,getFieldError } = form;
+        const { getFieldDecorator,getFieldValue,getFieldError,setFields} = form;
         let applying = initValue.creditStatus === '2';
         let getApplyFieldDecorator = applying ?this.getApplyingFieldDecorator:getFieldDecorator;
         const nowYear = new Date().getFullYear();
@@ -287,6 +326,7 @@ class ApplyCreditForm extends React.Component {
         for(let i = nowYear; i> nowYear - 200;i--){
             yearOptions.push(<Option key={'option-'+i} value={i}>{i}</Option>)
         }
+        const uploadParams = {abIds:initValue.currentBusi,type:'pcf'}
 		const formItemLayout = {
 			labelCol: {
 				xs: { span: 24 },
@@ -310,12 +350,56 @@ class ApplyCreditForm extends React.Component {
 			},
         };
         
-        let agreementText = initValue.agreement ? initValue.agreement.replace(/\r\n/g,'<br/>'):'';
+        let renderUpload = (name,max = 1)=>{
+            return <Upload
+                fileTypes="*.png, *.jpg, *.jpeg, *.xls, *.xlsx, *.doc, *.docx, *.pdf"
+                max={max}
+                postParams={uploadParams}
+                onChange={list => {
+                    let uploadFile = this.state;
+                    uploadFile[name] = list
+                    let obj = {}
+                    obj[name]= {value: JSON.stringify(list)}
+                    setFields(obj)
+                    this.setState({
+                        uploadFile
+                    });
+                    
+                }}
+                onError={err=>{
+                    let obj = {};
+                    obj[name] = {value:'',errors:[new Error(err)]}
+                    setFields(obj);
+                }}
+                sizeLimit="10MB"
+                name={name}
+                data={this.state.uploadFile[name]}
+            />
+        }
+        
+
+
+
 
 		return (
             <Form {...formItemLayout}>
+
+                {applying && <div className="credit-status">
+                        <div style={{fontWeight:'bold',fontSize:16}}>Pending</div>
+                    </div>}
+￼
+                {initValue.creditStatus === '4' && (
+                    <div className="credit-status">
+                        <Form.Item label="Status">
+                            <div>Rejected</div>
+                        </Form.Item>
+                        <Form.Item label="Review Opinion">
+                            <div className="ant-col-sm-16">{initValue.reviewOpinion}</div>
+                        </Form.Item>
+                    </div>
+                )}
             
-				<Form.Item label="Desired Credit Limit">
+				<Form.Item label="Expected Credit Limit">
                     <div className="ant-col-sm-12">
                         {getApplyFieldDecorator('creditLimit',ApplyCreditRules.creditLimit)(
                             <Input addonBefore={usUnit} maxLength={7} />
@@ -325,19 +409,19 @@ class ApplyCreditForm extends React.Component {
                 <Form.Item label="Application Description">
                     {!applying?<div className={`ant-col-sm-16 textarea-with-number ${getFieldError('description') && 'textarea-with-number-error'}`}>
                     {getApplyFieldDecorator('description',ApplyCreditRules.description)(
-                        <Input.TextArea maxLength={4000} style={{height: 200}} />
+                        <Input.TextArea maxLength={4000} style={{height: 200}} placeholder="Crov Credit application description: Why do you want to apply for it?" />
                     )}
                     <div className="textarea-span">{getFieldValue('description')?getFieldValue('description').length:0}/4000</div>
-                </div>:<div>{initValue.description}</div>}
+                </div>:<div className="applying-inner" dangerouslySetInnerHTML={{__html:this.renderEnter(initValue.description)}} ></div>}
                     
                 </Form.Item>
 
 
                 <h2 className="form-block-title">Company Information</h2>
                 <Form.Item label="Business Name" required={!applying}>
-                    <div>{initValue.businessName}</div>
+                    <div className="applying-inner">{initValue.businessName}</div>
                 </Form.Item>
-                <Form.Item label="Year Founeded">
+                <Form.Item label="Year Founded">
                     <div className="ant-col-sm-12">
                         {getApplyFieldDecorator('yearFounded',ApplyCreditRules.yearFounded)(
                             <Select>
@@ -449,17 +533,67 @@ class ApplyCreditForm extends React.Component {
                         - Supported formats: PDF, Doc, Docx, Xls, Xlsx, JPG, JPEG, PNG.
                     </div>
                 )}
-                <Form.Item label="IRS">
-                    {getApplyFieldDecorator('fileIrs',ApplyCreditRules.fileRule)(
-                        <Upload name="fileIrs" action="//upload-u.crov.com/uploadFile" accept="image/*,.pdf" beforeUpload={file=>{
-                            console.log(file)
-                        }}>
-                            <Button>
-                            Upload
-                            </Button>
-                        </Upload>
+                <Form.Item label="EIN Confirmation Letter">
+                    {getApplyFieldDecorator('fileEin',ApplyCreditRules.fileRule)(
+                        <Fragment>
+                            {renderUpload('fileEin')}
+                        </Fragment>
+                        // <Upload4Ant name='fileEin' />
+                        // <Upload
+                        //     fileTypes="*.png, *.jpg, *.jpeg, *.xls, *.xlsx, *.doc, *.docx, *.pdf"
+                        //     max={1}
+                        //     postParams={uploadParams}
+                        //     // onQueued={() => this.hideUploadRequiredErr()}
+                        //     onChange={list => {
+                                
+                        //         this.setState({
+                        //             uploadFile:{
+                        //                 fileIrs: list
+                        //             }
+                        //         });
+                        //     }}
+                        //     onError={err=>{
+                        //         setFields({fileIrs:{value:'',errors:[new Error(err)]}})
+                        //     }}
+                        //     sizeLimit="10MB"
+                        //     name="fileIrs"
+                        //     data={this.state.uploadFile.fileIrs}
+                        // />
                     )}
                 </Form.Item>
+                <Form.Item label="W9">
+                    {getApplyFieldDecorator('fileW9',ApplyCreditRules.fileRule)(
+                        <Fragment>
+                            {renderUpload('fileW9')}
+                        </Fragment>
+                    )}
+                </Form.Item>
+                <Form.Item label="Company Authorization Document">
+                    {getApplyFieldDecorator('fileCompanyAuth',ApplyCreditRules.fileRule)(
+                        <Fragment>
+                            {renderUpload('fileCompanyAuth')}
+                            <span className="upload-tip"><a href={initValue.companyAuthTempUrl}>Download Template</a></span>
+                        </Fragment>
+                    )}
+                </Form.Item>
+                
+                <Form.Item label="Balance Sheet">
+                    {getApplyFieldDecorator('fileBalanceSheet')(
+                        <Fragment>
+                            {renderUpload('fileBalanceSheet')}
+                            <span className="upload-tip">Previous 6 months</span>
+                        </Fragment>
+                    )}
+                </Form.Item>
+                <Form.Item label="Others">
+                    {getApplyFieldDecorator('fileOthers')(
+                        <Fragment>
+                            {renderUpload('fileOthers',10)}
+                            <span className="upload-tip">For example: Bank Statement, Imcome Statement, Cash flow analysis, Other Comprehensive Income Report –Previous 6 months.</span>
+                        </Fragment>
+                    )}
+                </Form.Item>
+
 
                 {
                     !applying && <Fragment>
@@ -467,7 +601,7 @@ class ApplyCreditForm extends React.Component {
                         <h2 className="form-block-title">Agreement</h2>
                         <Form.Item {...tailFormItemLayout} style={{marginBottom: 0}}>
                             <div className="ant-col-sm-18">
-                                <Input.TextArea style={{height: 300,resize:'none'}} value={agreementText} readOnly />
+                                <Input.TextArea style={{height: 300,resize:'none'}} value={this.renderEnter(initValue.agreement)} readOnly />
                             </div>
                         </Form.Item>
                         <Form.Item {...tailFormItemLayout}>

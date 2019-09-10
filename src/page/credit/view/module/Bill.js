@@ -21,18 +21,20 @@ function generateBillDetail(arr) {
     let statusLabel = CREDIT_RECORD_STATUS[item.status];
     return (
       <div className="bill-detail-item" key={idx}>
-        <div className='detail-wrap'>
+        <div className="detail-wrap">
           {item.list.map((item2, idx2) => {
             let orderTemp;
             if (item2.orderNumber) {
               orderTemp = (
                 <Fragment>
-                  (Order Number: <a
+                  (Order Number:{' '}
+                  <a
                     className="orderNumber"
                     href={item2.orderUrl && item2.orderUrl}
                   >
                     {item2.orderNumber}
-                  </a> )
+                  </a>{' '}
+                  )
                 </Fragment>
               );
             }
@@ -148,6 +150,11 @@ function generateBill(data, keys) {
   };
   return (
     <div className="bill">
+      <div className="bill-title">
+        <big>{data.billName}</big>
+        <span className="cycle">{data.billCycle}</span>
+        <span className="date">Repayment Date: {data.repaymentDate}</span>
+      </div>
       <div className="bill-info">
         <div className="bill-info-detail">
           {keys &&

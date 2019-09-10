@@ -1,6 +1,5 @@
 @import '../../../styles/_var';
-
-
+$record_repayment:#2E8AE6;
 
 .break {
   word-break: break-word;
@@ -155,6 +154,14 @@
     font-size: 18px;
     color: $color-font_dark;
   }
+  .repayment-input{
+    width: 250px;
+    margin-top: 5px;
+  }
+  .unpaid_error{
+    // font-size: 12px;
+    color:$color-font_link-hover;
+  }
 }
 .modal-footer {
   padding: 20px 0;
@@ -251,33 +258,39 @@
 }
 
 @include phone() {
-  .credit-info {
-    padding: 20px;
-    h3 {
-      font-size: 20px;
+  .credit{
+    .credit-info {
+      padding: 20px;
+      h3,.unpaid p {
+        font-size: 30px;
+      }
+      &_frozen .credit_status {
+        font-size: 14px;
+      }
+      .total {
+        flex-basis: 50%;
+      }
+      .used {
+        margin-right: 0;
+        flex-basis: 50%;
+      }
     }
-    &_frozen .credit_status {
-      font-size: 14px;
+    .credit-btns .btn-main,
+    .credit-btns .psw {
+      display: block;
     }
-    .total {
-      flex-basis: 50%;
-    }
-    .used {
+    .bill-info-item {
       margin-right: 0;
-      flex-basis: 50%;
+      flex-basis: 100%;
     }
-  }
-  .credit-btns .btn-main,
-  .credit-btns .psw {
-    display: block;
-  }
-  .bill-info-item {
-    margin-right: 0;
-  }
-  .bill-detail-item {
-    padding: 10px 0;
-  }
-  .ant-tabs {
-    font-size: 12px;
+    .bill-detail-item {
+      padding: 10px 0;
+      .price {
+        flex-basis: 100%;
+      }
+    }
+    .ant-tabs {
+      font-size: 12px;
+    }
   }
 }

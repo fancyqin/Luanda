@@ -23,6 +23,7 @@ export default class CreditHistory extends Component {
   }
 
   generateList(arr) {
+    console.log(arr);
     return arr.map((item, idx) => {
       const temp = (
         <Fragment>
@@ -52,7 +53,11 @@ export default class CreditHistory extends Component {
         </li>
       ) : (
         <li
-          className="list-item R-list-item"
+          className={`list-item ${
+            this.state.curBill.billName === item.billName
+              ? 'list-item_active'
+              : ''
+          }`}
           key={idx}
           onClick={e => this.changeCurBill(e, item)}
         >
@@ -65,34 +70,48 @@ export default class CreditHistory extends Component {
   generateHistory() {
     //TODO: HistoryObj billYear 乱序
     let res = [];
-    for (let key in this.state.billList) {
-      res.push(
-        <ul key={key} className="list">
-          <li className="list-title">{key}</li>
-          {this.generateList(this.state.billList[key])}
-        </ul>
-      );
+    // for (let key in this.state.billList) {
+    //   res.push(
+    //     <ul key={key} className="list">
+    //       <li className="list-title">{key}</li>
+    //       {this.generateList(this.state.billList[key])}
+    //     </ul>
+    //   );
+    // }
+    let { billList } = this.state;
+    if (!billList.length) return;
+    let year = billList[0].billYear;
+    let i = 1;
+    let prev = 0;
+    while (i < billList.length) {
+      if (year === billList[i].billYear) i++;
+      else {
+        res.push(
+          <ul key={year} className="list">
+            <li className="list-title">{year}</li>
+            {this.generateList(billList.slice(prev, i))}
+          </ul>
+        );
+        year = billList[i].billYear;
+        prev = i;
+        i++;
+      }
     }
+    res.push(
+      <ul key={year} className="list">
+        <li className="list-title">{year}</li>
+        {this.generateList(billList.slice(prev, i))}
+      </ul>
+    );
+    // console.log(res)
 
     return <Fragment>{res}</Fragment>;
   }
 
-  formatHistoryBill(arr) {
-    let list = arr;
+  sortList(arr) {
+    let list = arr.slice(0);
     if (!list || !list.length) return;
-    list.sort((a, b) => Number(a.billYear) - Number(b.billYear));
-    let key = list[0].billYear;
-    let historyObj = {};
-    historyObj[key] = [];
-    for (let i = 0; i < list.length; i++) {
-      if (list[i].billYear === key) {
-        historyObj[key].push(list[i]);
-      } else {
-        key = list[i].billYear;
-        historyObj[key] = [list[i]];
-      }
-    }
-    return historyObj;
+    return list.sort((a, b) => Number(b.billYear) - Number(a.billYear));
   }
 
   checkIsPhone() {
@@ -107,12 +126,6 @@ export default class CreditHistory extends Component {
   componentDidMount() {
     let _this = this;
     this.checkIsPhone();
-    window.addEventListener('click', function(e) {
-      //TODO: click +active 类名
-      // if (e.target.className.indexOf('R-list-item') > -1) {
-      //   console.dir('666');
-      // }
-    });
     wrapCheckIsPhone = this.checkIsPhone.bind(_this);
     window.addEventListener('resize', wrapCheckIsPhone);
 
@@ -121,7 +134,7 @@ export default class CreditHistory extends Component {
       .then(res => {
         let { list } = res.data;
         this.setState({
-          billList: this.formatHistoryBill(list),
+          billList: this.sortList(list),
           curBill: list[0]
         });
       })
@@ -158,15 +171,17 @@ export default class CreditHistory extends Component {
                   path={`${match.path}`}
                   render={() => {
                     return (
-                      <Bill
-                        data={curBill}
-                        showKeys={[
-                          'totalAmount',
-                          'remainingAmount',
-                          'repaidAmount',
-                          'unConfirmedAmount'
-                        ]}
-                      ></Bill>
+                      <Fragment>
+                        <Bill
+                          data={curBill}
+                          showKeys={[
+                            'totalAmount',
+                            'remainingAmount',
+                            'repaidAmount',
+                            'unConfirmedAmount'
+                          ]}
+                        ></Bill>
+                      </Fragment>
                     );
                   }}
                 ></Route>

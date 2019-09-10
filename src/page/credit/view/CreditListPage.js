@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component, Fragment, createRef } from 'react';
 import { Link } from 'react-router-dom';
 import { Tabs } from 'antd';
 import Bill from './module/Bill';
@@ -8,6 +8,10 @@ import { Modal, Input } from 'antd';
 import creditDao from '@/dao/creditDao';
 
 const CREDIT_STATUS = [null, 'Valid', 'Invalid', 'Frozen', 'Expired'];
+const AMOUNT_ERROR = {
+  required:'Please enter Amount.',
+  invalid:'Only number between 0.01 and 9999999.99 are allowed.'
+}
 
 export default class CreditListPage extends Component {
   constructor(props) {
@@ -21,8 +25,11 @@ export default class CreditListPage extends Component {
         unpaidCredit: 0,
         status: 'Valid'
       },
-      billList: []
+      billList: [],
+      repaymentErr:'',
+      repaymentAmount:''
     };
+    this.repaymentInput = createRef();
   }
 
   tabChange(e) {
@@ -39,6 +46,27 @@ export default class CreditListPage extends Component {
     })
   }
 
+  validateAmount(){
+    let input = this.repaymentInput.current.input;
+    let value = input.value;
+    let errMsg = '';
+    if(!value.length){
+      errMsg = AMOUNT_ERROR.required;
+    }else{
+      if(!value.match(/^\d+(\.\d{1,2})$/)){
+        errMsg = AMOUNT_ERROR.invalid;
+      }else{
+        try{
+          let num = Number(value);
+          errMsg = (num<0.01||num>9999999.99)?AMOUNT_ERROR.required:''
+        }catch(err){
+          errMsg = AMOUNT_ERROR.invalid;
+        }
+      }
+    }
+    this.setState({repaymentErr:errMsg})
+  }
+
   componentDidMount() {
     Promise.all([creditDao.getCreditInfo(), creditDao.getBillList()]).then(
       ([creditInfo, billList]) => {
@@ -50,7 +78,7 @@ export default class CreditListPage extends Component {
     );
   }
   render() {
-    let { creditInfo, billList } = this.state;
+    let { creditInfo, billList, repaymentErr, repaymentAmount } = this.state;
     let creditStatus = creditInfo.status;
     let creditStatusLabel = CREDIT_STATUS[creditStatus];
     let creditInfoClass = '';
@@ -117,7 +145,6 @@ export default class CreditListPage extends Component {
                 <Button
                   type="main"
                   onClick={() => {
-                    console.log('test');
                     this.setState({ modalVisible: true });
                   }}
                 >
@@ -180,7 +207,10 @@ export default class CreditListPage extends Component {
 
             <div className='mt-20'>
               <p className='title'>Repayment Amount</p>
-              <Input addonBefore="US$" defaultValue={creditInfo.unpaidCredit} style={{marginTop:'5px',width:'250px'}}/>
+              <Input ref={this.repaymentInput} className={`repayment-input ${repaymentErr?'has-error':''}`} addonBefore="US$" defaultValue={creditInfo.unpaidCredit} onBlur={()=>{this.validateAmount()}}/>
+              { repaymentErr&&
+                <div className='unpaid_error'>{repaymentErr}</div>
+              }
             </div>
             <div className='btn-groups modal-footer'>
               <Button onClick={()=>this.modalCancel()}>Cancel</Button>

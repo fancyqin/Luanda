@@ -1,0 +1,243 @@
+@import './../_var';
+
+.file-list .ico {
+  display: inline-block;
+  *display: inline;
+  zoom: 1;
+  margin-right: 5px;
+  overflow: hidden;
+  width: 18px;
+  height: 16px;
+  vertical-align: middle;
+  background: url(/common/img/icon/files.png) no-repeat;
+}
+
+.file-list .ico-pdf {
+  background-position: 0 0;
+}
+
+.file-list .ico-txt {
+  background-position: 0 -18px;
+}
+
+.file-list .ico-doc {
+  background-position: 0 -36px;
+}
+
+.file-list .ico-docx {
+  background-position: 0 -36px;
+}
+
+.file-list .ico-xls {
+  background-position: 0 -54px;
+}
+
+.file-list .ico-xlsx {
+  background-position: 0 -54px;
+}
+
+.file-list .ico-jpg {
+  background-position: 0 -72px;
+}
+
+.file-list .ico-png {
+  background-position: 0 -90px;
+}
+
+.file-list .ico-ppt {
+  background-position: 0 -108px;
+}
+
+.file-list .ico-xml {
+  background-position: 0 -126px;
+}
+
+.file-list .ico-mp3 {
+  background-position: 0 -144px;
+}
+
+.file-list .ico-mp4 {
+  background-position: 0 -162px;
+}
+
+.file-list .ico-tif {
+  background-position: 0 -180px;
+}
+
+.file-list .ico-tiff {
+  background-position: 0 -198px;
+}
+
+.file-list .ico-zip {
+  background-position: 0 -216px;
+}
+
+.file-list .ico-rar {
+  background-position: 0 -234px;
+}
+
+.file-list .ico-gif {
+  background-position: 0 -252px;
+}
+
+.file-list .ico-jpeg {
+  background-position: 0 -270px;
+}
+
+.file-list .ico-bmp {
+  background-position: 0 -288px;
+}
+.ico-default{
+  display: inline-block;
+  *display: inline;
+  zoom: 1;
+  margin-right: 5px;
+  overflow: hidden;
+  width: 18px;
+  height: 16px;
+  vertical-align: middle;
+  background: url(/common/img/icon/file-default.png) no-repeat center;
+}
+.file-list .ico-cdr,.file-list .ico-svg,.file-list .ico-eps,.file-list .ico-ai{
+  @extend .ico-default;
+}
+
+
+.FOCUS_UPLOAD_wrap {
+  display: inline-block;
+  position: relative;
+  &:hover {
+    .btn{
+      background: #e6ecf2;
+    }
+  }
+  .FOCUS_UPLOAD_selector {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+  }
+  &.FOCUS_UPLOAD_wrap_disabled,
+  &.FOCUS_UPLOAD_wrap_disabled:hover {
+    .FOCUS_UPLOAD_text {
+      color: #b3b3b3;
+      cursor: not-allowed;
+    }
+    .btn{
+        color: #b3b3b3;
+        cursor: not-allowed;
+        background-color: #f5f7fa;
+    }
+  }
+}
+
+.FOCUS_UPLOAD_text {
+  font-weight: normal;
+  font-style: normal;
+  text-decoration: inherit;
+  -webkit-font-smoothing: antialiased;
+  display: inline-block;
+  font-size: 14px;
+  line-height: 1;
+  vertical-align: middle;
+  border-radius: 3px;
+  color: $color-font_link;
+  padding: 0 8px 0 0;
+  cursor: pointer;
+}
+.upload-limit{
+  color: #888;
+  margin-left: 12px;
+}
+.upload-tips {
+  p {
+    color: $color-font_light;
+    margin: 0;
+    font-size: 12px;
+    line-height: 1.5;
+  }
+}
+.attach-list {
+  line-height: 1.5;
+  text-align: left;
+  color:$color-font_light;
+  max-width: 420px;
+  .attach-item {
+    margin-bottom: 5px;
+    background: #f5f7fa;
+    padding: 5px 10px;
+    display: block;
+    &:first-child {
+      margin-top: 10px;
+    }
+
+    .ob-icon {
+      cursor: pointer;
+      color: rgba(0, 0, 0, 0.3);
+      float: right;
+      margin-top: 2px;
+      &:hover {
+        color: #000;
+      }
+    }
+    .loading-wrap {
+      .file-loading {
+        display: inline-block;
+        zoom: 1;
+        margin-left: 20px;
+        width: 16px;
+        height: 16px;
+        vertical-align: middle;
+        background: url(/common/img/loading/loading-opacity.gif) no-repeat;
+        margin-right: 10px;
+        background-size: 100%;
+      }
+    }
+
+    .info-wrap {
+      // display: none;
+      position: relative;
+      .item-name {
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        display: inline-block;
+        max-width: 155px;
+        vertical-align: middle;
+        @include phone{
+          max-width: 109px;
+        }
+      }
+      .item-ext {
+        display: inline-block;
+        margin-right: 5px;
+      }
+      // .upload-failed-wrap {
+      //   display: none;
+      // }
+      .pc-hide {
+        display: none;
+      }
+      .wap-hide {
+        display: block;
+      }
+      .upload-failed-text {
+        color: $color-main-red;
+        padding: 0 0 0 10px;
+      }
+      .upload-failed-btn {
+        padding-left: 10px;
+        color: $color-main;
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+@media screen and (max-width:700px){
+  .m-form .upload-wrap .btn{
+    width: auto;
+  }
+}

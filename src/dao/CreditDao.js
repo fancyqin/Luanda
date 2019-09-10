@@ -1,6 +1,7 @@
 import axios from './axios';
 import setting from '@/setting';
 import {message} from 'antd';
+import qs from 'qs';
 const creditAxios = axios.create({
     baseURL: setting.server
 });
@@ -24,10 +25,16 @@ export default {
         })
     },
     postApplyCredit: data=>{
+        // const formData = new FormData();
+        // Object.keys(data).forEach((key) => {
+        //     formData.append(key, data[key]);
+        // });
         return creditAxios({
             method:'post',
             url:'/submitApplyCredit',
-            data
+            headers: {'X-Requested-With': 'XMLHttpRequest',
+            'Content-Type':'application/x-www-form-urlencoded'},
+            data:qs.stringify(data)
         })
     },
     getCreditInfo: ()=>{

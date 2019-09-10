@@ -13,6 +13,15 @@
     box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px;
     margin-bottom: 20px;
     overflow: auto;
+    p{
+      margin: 0;
+    }
+    .bill-title{
+      margin: 15px;
+      .date{
+        float: none;
+      }
+    }
     .bill-info{
       margin: 15px;
       padding: 15px;

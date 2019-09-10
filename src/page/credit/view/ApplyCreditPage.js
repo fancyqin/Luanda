@@ -12,18 +12,23 @@ class ApplyCreditPage extends Component {
             pageLoading: true,
             data:{}
         }
+        document.querySelector('body').classList.add('react-apply-credit')
     }
     
     componentDidMount(){
         let {history} = this.props;
-        document.querySelector('body').classList.add('react-apply-credit')
         
         CreditDao.getApplyCredit().then(result=> {
             let {data} = result;
             let {creditStatus} = data;
-            // if(creditStatus === '1'){
-            //     history.replace('/')
-            // }
+            if(creditStatus === '1'){
+                //审核通过跳转至账期列表页
+                history.replace('/')
+            }
+            if(creditStatus === '2'){
+                //审核中状态显示侧边栏
+                document.querySelector('body').classList.remove('react-apply-credit')
+            }
             this.setState({
                 pageLoading: false,
                 data

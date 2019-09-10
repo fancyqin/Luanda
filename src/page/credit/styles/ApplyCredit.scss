@@ -46,6 +46,14 @@ body{
 
 .apply-credit{
     font-size: 30px;
+    .credit-status{
+        margin-bottom: 30px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid $color-bd_normal;
+        .ant-form-item{
+            margin-bottom: 10px;
+        }
+    }
     .vo-block{
         padding: 40px 20px;
     }
@@ -68,17 +76,29 @@ body{
         color: #888;
         margin-bottom: 20px;
     }
+    .upload-tip{
+        font-size: 12px;
+        line-height: 1.5;
+        color: #888;
+    }
     &.apply-credit-applying{
         .ant-form-item{
             margin-bottom: 10px;
+            .ant-form-item-label > label::after {
+                content: ':';
+            }
         }
+        .form-block-title{
+            border-top: 0;
+            padding-top: 0;
+            margin-top: 30px;
+        }
+        
         .applying-inner{
             color: #222;
             word-wrap: break-word;
         }
-        .ant-form-item-label > label::after {
-            content: ':';
-        }
+        
     }
 }
 

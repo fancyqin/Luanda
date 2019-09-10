@@ -10,7 +10,23 @@ $record_refund:#FF9500;
   border-radius: 6px;
   font-size: 12px;
 }
+.break{
+  word-break: break-word;
+}
 //BIll
+.bill-title{
+  margin-bottom: 1em;
+  big{
+    font-size: 18px;
+    color:$color-font_dark;
+  }
+  .cycle{
+    margin-left: 10px;
+  }
+  .date{
+    float: right;
+  }
+}
 .bill-info {
   background: #f5f7fa;
   border-radius: 6px;

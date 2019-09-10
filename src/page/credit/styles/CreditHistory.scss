@@ -53,6 +53,9 @@
   }
   
   .history-detail {
+    p{
+      margin: 0;
+    }
     flex-grow: 1;
     background: #fff;
     padding: 20px;
