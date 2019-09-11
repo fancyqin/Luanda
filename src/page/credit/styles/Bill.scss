@@ -1,30 +1,35 @@
 @import '../../../styles/_var';
-$record_payment:#00B300;
-$record_repayment:#2E8AE6;
-$record_carried:#F25555;
-$record_refund:#FF9500;
-@mixin record($color:$record_payment) {
-  color:$color;
-  border:1px solid $color;
+$record_payment: #00b300;
+$record_repayment: #2e8ae6;
+$record_carried: #f25555;
+$record_refund: #ff9500;
+@mixin record($color: $record_payment) {
+  color: $color;
+  border: 1px solid $color;
   padding: 1px 6px;
   border-radius: 6px;
   font-size: 12px;
 }
-.break{
+.break {
   word-break: break-word;
 }
 //BIll
-.bill-title{
+.bill-title {
   margin-bottom: 1em;
-  big{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  big {
     font-size: 18px;
-    color:$color-font_dark;
+    color: $color-font_dark;
   }
-  .cycle{
+  .cycle {
     margin-left: 10px;
   }
-  .date{
-    float: right;
+  .date {
+    @include pc() {
+      line-height: 27px;
+    }
   }
 }
 .bill-info {
@@ -38,7 +43,7 @@ $record_refund:#FF9500;
   &-detail {
     display: flex;
     flex-wrap: wrap;
-    width: 100%;    
+    flex-grow: 1;
   }
   &-item {
     margin-right: 40px;
@@ -60,7 +65,6 @@ $record_refund:#FF9500;
 }
 
 .bill-detail {
-  
   &-item {
     display: flex;
     flex-wrap: wrap;

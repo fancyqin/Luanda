@@ -11,7 +11,6 @@
     box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px;
   }
   .vo-main-wrap {
-    margin-left: 230px;
     padding: 20px 20px 0 20px;
   }
   .vo-main {
@@ -30,7 +29,7 @@
   .history-list {
     padding: 20px;
     background: #fff;
-    width: 300px;
+    width: 320px;
     height: auto;
     overflow: auto;
     border-right: 1px solid $color-bd_normal;
@@ -38,6 +37,7 @@
       &-title {
         padding: 10px 0;
         border-bottom: 1px solid $color-bd_normal;
+        margin-bottom: 10px;
       }
   
       &-item {
@@ -60,6 +60,9 @@
     background: #fff;
     padding: 20px;
     overflow: auto;
+    .bill-info_repaid{
+      display: none;
+    }
     .bill-info {
       padding: 10px 20px;
     }
@@ -74,8 +77,8 @@
   }
   
   @include ipad() {
-    .vo-main-wrap {
-      margin-left: 56px;
+    .history-list,.history-detail{
+      padding:20px 10px;
     }
   }
   

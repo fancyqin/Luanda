@@ -23,6 +23,7 @@ import Button from '@/components/button/Button';
 import CreditDao from '@/dao/CreditDao';
 const { Option } = Select;
 import {isArray} from '@/utils'
+import agreementText from './agreementText';
 
 const ApplyCreditRules = {
     creditLimit:{
@@ -636,7 +637,7 @@ class ApplyCreditForm extends React.Component {
                         <h2 className="form-block-title">Agreement</h2>
                         <Form.Item {...tailFormItemLayout} style={{marginBottom: 0}}>
                             <div className="ant-col-sm-18">
-                                <Input.TextArea style={{height: 300,resize:'none'}} value={this.renderEnter(initValue.agreement)} readOnly />
+                                <Input.TextArea style={{height: 300,resize:'none'}} value={agreementText} readOnly />
                             </div>
                         </Form.Item>
                         <Form.Item {...tailFormItemLayout}>

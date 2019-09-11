@@ -1,13 +1,13 @@
 @import '../../../styles/_var';
 @include phone() {
-  .vo-main-wrap {
-    margin-left: 0;
-    padding: 20px 20px 0 20px;
-  }
-  .vo-main {
-    margin: 0 auto;
-    max-width: 1280px;
-  }
+  // .vo-main-wrap {
+  //   margin-left: 0;
+  //   padding: 20px 20px 0 20px;
+  // }
+  // .vo-main {
+  //   margin: 0 auto;
+  //   max-width: 1280px;
+  // }
   .billDetail {
     background: #fff;
     box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px;

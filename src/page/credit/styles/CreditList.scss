@@ -12,15 +12,15 @@ $record_repayment:#2E8AE6;
   color: $record_repayment;
 }
 
-.vo-main-wrap {
-  margin-left: 230px;
-  padding: 20px 20px 0 20px;
-}
-.vo-main {
-  margin: 0 auto;
-  max-width: 1280px;
-  background: #f5f7fa;
-}
+// .vo-main-wrap {
+//   margin-left: 230px;
+//   padding: 20px 20px 0 20px;
+// }
+// .vo-main {
+//   margin: 0 auto;
+//   max-width: 1280px;
+//   background: #f5f7fa;
+// }
 
 .ant-breadcrumb {
   margin-bottom: 20px;
@@ -137,6 +137,9 @@ $record_repayment:#2E8AE6;
     @extend .shadow;
     padding: 0;
     background: #fff;
+  }
+  .bill-title{
+    display: none;
   }
 }
 

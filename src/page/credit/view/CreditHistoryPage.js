@@ -26,14 +26,13 @@ export default class CreditHistory extends Component {
     return arr.map((item, idx) => {
       const temp = (
         <Fragment>
-          <div style={{ overflow: 'hidden' }}>
+          <div style={{ overflow: 'hidden',marginBottom:'6px' }}>
             <span className="fl">
-              {/* style={{ width: 'calc(100% - 100px)' }} */}
               {item.billName}
             </span>
-            <span className="fr">{item.billCycle}</span>
+            <span className="fr" style={{fontSize:'12px'}}>{item.billCycle}</span>
           </div>
-          <span>US$ {item.totalAmount}</span>
+          <span style={{fontSize:'12px'}}>US$ {item.totalAmount}</span>
         </Fragment>
       );
       return this.state.isPhone ? (
@@ -131,7 +130,7 @@ export default class CreditHistory extends Component {
     Promise.all([creditDao.getCreditInfo(), creditDao.getHistoryList()])
       .then(([creditInfo, historyList]) => {
         let { status } = creditInfo;
-        //XXX:
+        // XXX:
         // if(status!='1'&&status!='3')window.location.href = '//crov.com/error/403';
         let { list } = historyList.data;
         this.setState({

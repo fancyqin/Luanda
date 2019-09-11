@@ -22,31 +22,32 @@ function generateBillDetail(arr) {
     return (
       <div className="bill-detail-item" key={idx}>
         <div className="detail-wrap">
-          {item.list.map((item2, idx2) => {
-            let orderTemp;
-            if (item2.orderNumber) {
-              orderTemp = (
-                <Fragment>
-                  (Order Number:{' '}
-                  <a
-                    className="orderNumber"
-                    href={item2.orderUrl && item2.orderUrl}
-                  >
-                    {item2.orderNumber}
-                  </a>{' '}
-                  )
-                </Fragment>
+          {item.list &&
+            item.list.map((item2, idx2) => {
+              let orderTemp;
+              if (item2.orderNumber) {
+                orderTemp = (
+                  <Fragment>
+                    (Order Number:{' '}
+                    <a
+                      className="orderNumber"
+                      href={item2.orderUrl && item2.orderUrl}
+                    >
+                      {item2.orderNumber}
+                    </a>{' '}
+                    )
+                  </Fragment>
+                );
+              }
+              return (
+                <div key={idx2} className="order">
+                  <a href={item2.sellerUrl} className="seller">
+                    {item2.sellerName}
+                  </a>
+                  {orderTemp && orderTemp}
+                </div>
               );
-            }
-            return (
-              <div key={idx2} className="order">
-                <a href={item2.sellerUrl} className="seller">
-                  {item2.sellerName}
-                </a>
-                {orderTemp && orderTemp}
-              </div>
-            );
-          })}
+            })}
           <div className="info">
             <span style={{ marginRight: '10px' }}>{item.billDate}</span>
             <span
@@ -151,8 +152,10 @@ function generateBill(data, keys) {
   return (
     <div className="bill">
       <div className="bill-title">
-        <big>{data.billName}</big>
-        <span className="cycle">{data.billCycle}</span>
+        <span>
+          <big>{data.billName}</big>
+          <span className="cycle">{data.billCycle}</span>
+        </span>
         <span className="date">Repayment Date: {data.repaymentDate}</span>
       </div>
       <div className="bill-info">
@@ -162,13 +165,9 @@ function generateBill(data, keys) {
               if (tempObj[item])
                 return <Fragment key={idx}>{tempObj[item]}</Fragment>;
             })}
-          {/* {remainingTemp && remainingTemp}
-          {unConfirmedTemp && unConfirmedTemp}
-          {totalTemp && totalTemp}
-          {repaymentDateTemp && repaymentDateTemp} */}
         </div>
         {/* TODO: repaid 状态展示判断 */}
-        {/* <div className="bill-info_repaid">Repaid</div> */}
+        {!remainingAmount && <div className="bill-info_repaid">Repaid</div>}
       </div>
       {detailTemp && detailTemp}
     </div>
