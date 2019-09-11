@@ -2,16 +2,8 @@ import React, { Fragment } from 'react'
 import {
 	Form,
     Input,
-    
-	Tooltip,
-	Icon,
-	Cascader,
 	Select,
-	Row,
-	Col,
     Checkbox,
-    // Upload,
-    message
 } from 'antd';
 
 import Upload from '@/components/upload';
@@ -24,6 +16,7 @@ import CreditDao from '@/dao/CreditDao';
 const { Option } = Select;
 import {isArray} from '@/utils'
 import agreementText from './agreementText';
+import message from '@/components/message'
 
 const ApplyCreditRules = {
     creditLimit:{

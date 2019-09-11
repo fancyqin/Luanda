@@ -1,4 +1,5 @@
 const path = require('path')
+const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const {CleanWebpackPlugin} = require('clean-webpack-plugin');
@@ -89,6 +90,7 @@ module.exports = {
     resolve: {
         alias: {
             '@': `${APP_PATH}/`,
+            '@ant-design/icons/lib/dist$': `${APP_PATH}/utils/antdIcon.js`
         },
     },
     optimization:{
@@ -110,6 +112,10 @@ module.exports = {
 			filename: "[name]/[name].css",
 			chunkFilename: "[id].css"
         }),
+        new webpack.ContextReplacementPlugin(
+            /moment[\/\\]locale/,
+            /(en-gb|zh-cn)\.js/,
+        )
     ],
     
 }
