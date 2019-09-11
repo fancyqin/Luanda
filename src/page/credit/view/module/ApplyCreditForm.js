@@ -16,13 +16,13 @@ import {
 
 import Upload from '@/components/upload';
 import UploadList from '@/components/upload/uploadList'
-import {usUnit} from '@/utils/currency';
+import currency,{usUnit} from '@/utils/currency';
 import {method} from '@/utils/rules';
 import CONST from '@/utils/const';
 import Button from '@/components/button/Button';
 import CreditDao from '@/dao/CreditDao';
 const { Option } = Select;
-
+import {isArray} from '@/utils'
 
 const ApplyCreditRules = {
     creditLimit:{
@@ -232,8 +232,17 @@ const ApplyCreditRules = {
 class ApplyCreditForm extends React.Component {
 
 	constructor(props){
-		super(props);
-	}
+        super(props);
+    }
+    
+    state = {
+        fileEin:[],
+        fileW9:[],
+        fileCompanyAuth:[],
+        fileBalanceSheet:[],
+        fileOthers:[]
+    };
+
 
 	componentDidMount(){
 		let {initValue={},form} = this.props;
@@ -244,25 +253,33 @@ class ApplyCreditForm extends React.Component {
         if(!initValue.bankEstablishYear){
             initValue.bankEstablishYear = ''
         }
-        initValue.creditStatus !== '2' &&  setFieldsValue(initValue)
+        
+        this.setState({
+            fileEin: (initValue.fileEin && initValue.fileEin.map(item => {item.status = 'success';return item})) || [],
+            fileW9: initValue.fileW9 || [],
+            fileCompanyAuth:initValue.fileCompanyAuth || [],
+            fileBalanceSheet:initValue.fileBalanceSheet || [],
+            fileOthers:initValue.fileOthers || []
+        })
+
+        initValue.creditStatus !== '2' &&  setFieldsValue(initValue);
 	}
 
-	state = {
-        uploadFile:{
-            fileEin:[],
-            fileW9:[],
-            fileCompanyAuth:[],
-            fileBalanceSheet:[],
-            fileOthers:[]
-        }
-    };
+	
     
     submitApplyCredit(submitData){
-        CreditDao.postApplyCredit(submitData).then(result =>{
+        CreditDao.postApplyCredit(submitData).then(data =>{
+            let result = data.data;
             if(result){
-                message.success(submitData.draft === '0' ? 'Submit Success!':'Save Success!',3,()=>{
-                    submitData.draft === '0' && window.location.reload();
-                });
+                if(result.code === '10001'){
+                    message.success(submitData.draft === '0' ? 'Submitted successfully.':'The draft was submitted successfully.',3,()=>{
+                        submitData.draft === '0' && window.location.reload();
+                    });
+                }else{
+                    message.error(result.msg||'Unknown Error')
+                }
+            
+                
             }
         })
     }
@@ -272,15 +289,30 @@ class ApplyCreditForm extends React.Component {
 		this.props.form.validateFieldsAndScroll((err, values) => {
 			if (!err) {
                 values.draft = '0';
+                
+                Object.keys(values).forEach(key => {
+            
+                    if(key.indexOf('file')> -1 && isArray(values[key])){
+                        values[key] = JSON.stringify(values[key])
+                    }
+                })
                 console.log('submit values of form: ', values);
                 this.submitApplyCredit(values);
 			}
 		});
     };
+    
     handleSaveDraft = e=>{
         e.preventDefault();
         let values = this.props.form.getFieldsValue();
         values.draft = '1';
+        console.log(Object.keys(values))
+        Object.keys(values).forEach(key => {
+            
+            if(key.indexOf('file')> -1 && isArray(values[key])){
+                values[key] = JSON.stringify(values[key])
+            }
+        })
         console.log('draft values of form: ', values);
         this.submitApplyCredit(values);
     }
@@ -300,18 +332,24 @@ class ApplyCreditForm extends React.Component {
     getApplyingFieldDecorator= (name,options)=> {
         return () => {
             let {initValue} = this.props;
-            if(name.indexOf('file')> 0){
+            if(name.indexOf('file')> -1){
+                let fileData = (initValue[name] && initValue[name].length > 0)? initValue[name].map(item=>{item.stutus = 'success';return item}):[];
                 return <UploadList
-                data={JSON.parse(initValue[name])}
+                data={fileData}
                 className="attach-list"
-                namekey={name}
+                namekey="name"
                 extkey="ext"
-                urikey="uri"
-                fileIdkey="fileId"
+                urikey="src"
+                fileIdkey="id"
                 type="read"
               />
+            }else{
+                if(name === 'creditLimit'){
+                    initValue[name] = usUnit + ' ' + currency(initValue[name], { precision: 0 }).format();
+                }
+                return <div className="applying-inner">{this.renderEnter(initValue[name])}</div>
             }
-            return <div className="applying-inner">{this.renderEnter(initValue[name])}</div>
+            
         }
     } 
     
@@ -356,15 +394,12 @@ class ApplyCreditForm extends React.Component {
                 max={max}
                 postParams={uploadParams}
                 onChange={list => {
-                    let uploadFile = this.state;
-                    uploadFile[name] = list
                     let obj = {}
-                    obj[name]= {value: JSON.stringify(list)}
-                    setFields(obj)
-                    this.setState({
-                        uploadFile
-                    });
-                    
+                    obj[name]= {value: list.length>0 ?JSON.stringify(list):''}
+                    setFields(obj);
+                    let file ={};
+                    file[name] = list
+                    this.setState(file);
                 }}
                 onError={err=>{
                     let obj = {};
@@ -373,7 +408,7 @@ class ApplyCreditForm extends React.Component {
                 }}
                 sizeLimit="10MB"
                 name={name}
-                data={this.state.uploadFile[name]}
+                data={this.state[name]}
             />
         }
         

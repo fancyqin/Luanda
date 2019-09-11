@@ -32,12 +32,8 @@ export default class CreditListPage extends Component {
     this.repaymentInput = createRef();
   }
 
-  tabChange(e) {
-    // console.log(e);
-  }
-
   modalConfirm() {
-    //TODO: 跳转支付页
+    //TODO: 跳转凭证上传页
     this.modalCancel();
   }
   modalCancel() {
@@ -70,6 +66,11 @@ export default class CreditListPage extends Component {
   componentDidMount() {
     Promise.all([creditDao.getCreditInfo(), creditDao.getBillList()]).then(
       ([creditInfo, billList]) => {
+        //XXX:
+        // if(creditInfo.data.creditStatus!=='1'){
+        //   window.location.href='//crov.com/error/403';
+        //   return
+        // }
         this.setState({
           creditInfo: creditInfo.data,
           billList: billList.data.list
@@ -153,8 +154,7 @@ export default class CreditListPage extends Component {
                 <Link to="/history" className="btn">
                   History Bills
                 </Link>
-                {/* TODO: href */}
-                <a className="btn psw" href="">
+                <a className="btn psw" href="//login.crov.com/payment-password/verification">
                   Payment Password
                 </a>
               </div>
@@ -162,7 +162,7 @@ export default class CreditListPage extends Component {
           </div>
 
           <div className="credit-main">
-            <Tabs onChange={this.tabChange} type="card" tabBarGutter={0} tabBarStyle={{height:'66px'}}>
+            <Tabs type="card" tabBarGutter={0} tabBarStyle={{height:'66px'}}>
               {billList.map((item, idx) => {
                 let tabTemp = <div className='tabCard'><p className='tab-title'>{billLabel[idx]}</p></div>;
                 if (idx < 2) {

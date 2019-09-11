@@ -81,6 +81,9 @@ body{
         line-height: 1.5;
         color: #888;
     }
+    .form-error.error{
+        color: $color-main-red;
+    }
     &.apply-credit-applying{
         .ant-form-item{
             margin-bottom: 10px;

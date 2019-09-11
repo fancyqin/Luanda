@@ -23,7 +23,6 @@ export default class CreditHistory extends Component {
   }
 
   generateList(arr) {
-    console.log(arr);
     return arr.map((item, idx) => {
       const temp = (
         <Fragment>
@@ -129,10 +128,12 @@ export default class CreditHistory extends Component {
     wrapCheckIsPhone = this.checkIsPhone.bind(_this);
     window.addEventListener('resize', wrapCheckIsPhone);
 
-    creditDao
-      .getHistoryList()
-      .then(res => {
-        let { list } = res.data;
+    Promise.all([creditDao.getCreditInfo(), creditDao.getHistoryList()])
+      .then(([creditInfo, historyList]) => {
+        let { status } = creditInfo;
+        //XXX:
+        // if(status!='1'&&status!='3')window.location.href = '//crov.com/error/403';
+        let { list } = historyList.data;
         this.setState({
           billList: this.sortList(list),
           curBill: list[0]

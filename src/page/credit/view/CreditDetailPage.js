@@ -3,12 +3,18 @@ import Bill from './module/Bill';
 import { Breadcrumb } from 'antd';
 
 function CreditDetailPage(props) {
-  const { detail, showKeys, location } = props;
-  let data = Object.assign({}, detail);
-  if (!detail) {
-    let { state } = location;
-    if (state.detail) data = state.detail;
+  const { detail, showKeys, location, history } = props;
+  let data;
+  try{
+    data = Object.assign({}, detail);
+    if (!detail) {
+      let { state } = location;
+      if (state.detail) data = state.detail;
+    }
+  }catch(err){
+    data = undefined;
   }
+  if(!data)history.replace('/');
   return (
     <div className="vo-main-wrap">
       <Breadcrumb separator={<i className="ob-icon icon-right"></i>}>

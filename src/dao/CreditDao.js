@@ -2,11 +2,16 @@ import axios from './axios';
 import setting from '@/setting';
 import {message} from 'antd';
 import qs from 'qs';
-const creditAxios = axios.create({
+const getAxios = axios.create({
     baseURL: setting.server
 });
 
-creditAxios.interceptors.response.use(function(res){
+const postAxios = axios.create({
+    baseURL:setting.server
+})
+
+//get请求，判断10002时身份不符，返回403
+getAxios.interceptors.response.use(function(res){
     const {code,data} = res.data;
     if(code==='10001'){
         return res.data
@@ -17,19 +22,16 @@ creditAxios.interceptors.response.use(function(res){
     }
 });
 
+
 export default {
     getApplyCredit: ()=>{
-        return creditAxios({
+        return getAxios({
             method:'get',
             url: '/applyCredit'
         })
     },
     postApplyCredit: data=>{
-        // const formData = new FormData();
-        // Object.keys(data).forEach((key) => {
-        //     formData.append(key, data[key]);
-        // });
-        return creditAxios({
+        return postAxios({
             method:'post',
             url:'/submitApplyCredit',
             headers: {'X-Requested-With': 'XMLHttpRequest',
@@ -38,19 +40,19 @@ export default {
         })
     },
     getCreditInfo: ()=>{
-        return creditAxios({
+        return getAxios({
             method:"get",
             url:"/getUserCreditInfo"
         })
     },
     getBillList: ()=>{
-        return creditAxios({
+        return getAxios({
             method:'get',
             url:'/getBillList'
         })
     },
     getHistoryList: ()=>{
-        return creditAxios({
+        return getAxios({
             method:'get',
             url:'/getHistoryBills'
         })

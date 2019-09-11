@@ -38,6 +38,7 @@ $record_refund:#FF9500;
   &-detail {
     display: flex;
     flex-wrap: wrap;
+    width: 100%;    
   }
   &-item {
     margin-right: 40px;
@@ -59,6 +60,7 @@ $record_refund:#FF9500;
 }
 
 .bill-detail {
+  
   &-item {
     display: flex;
     flex-wrap: wrap;

@@ -96,6 +96,29 @@ export default class UploadListItem extends React.Component {
             </div>
           );
           break;
+        default:
+            template = (
+                <div className="info-wrap file-list J-info">
+                    <i className={`item-icon ico J-type ${ext ? 'ico-' + ext : ''}`} />
+                    <span className="item-name J-name">{name}</span>
+                    <span className="item-ext J-ext">.{ext}</span>
+                    {type === 'edit' ? (
+                    <i
+                        className="ob-icon icon-delete J-attach-del wap-hide"
+                        onClick={() => this._remove()}
+                    />
+                    ) : this.canDownload(ext) ? (
+                    <a href={uri} download={`${name}.${ext}`} className="fr">
+                        Download
+                    </a>
+                    ) : (
+                    <a href={uri} target="_blank" className="fr">
+                        View
+                    </a>
+                    )}
+                </div>
+                );
+            break;
       }
   
       return (

@@ -3,11 +3,20 @@ import UploadList from './uploadList';
 import {isArray} from '@/utils';
 
 const UPLOAD_ERR = {
-  fileType: 'Supported file formats are jpg, jpeg, png, pdf, doc, docx, xls and xlsx.',
+  fileType: 'Supported file formats are pdf, doc, docx, xls, xlsx, jpg, jpeg and png.',
   size: 'Please upload files less than 10MB.',
   count: 'Please upload no more than 10 files.'
 };
 export default class Upload extends React.Component {
+
+    static getDerivedStateFromProps(props, state) {
+
+        return {
+            uploadList: props.data
+        };
+    }
+
+
   constructor(props) {
     super(props);
     this.state = {
@@ -60,10 +69,12 @@ export default class Upload extends React.Component {
     if (this.uploader.cfg.postParams.bBusiId != this.props.postParams.bBusiId) {
       this.uploader.cfg.postParams.bBusiId = this.props.postParams.bBusiId;
     }
-    
-    $(this.uploader.elems.holder).find('.J-upload-text').text(this.props.data ? this.props.data.length :0);
 
+    $(this.uploader.elems.holder).find('.J-upload-text').text(this.props.data ? this.props.data.length :0);
+    this.checkCount()
   }
+
+  
   componentDidMount() {
     let {
       onQueued,
@@ -75,6 +86,7 @@ export default class Upload extends React.Component {
       max,
       multiple: multiple = false
     } = this.props;
+    // console.log('this.props',this.props)
     this.setState({uploadList:attachment})
     // bus.on('attachmentOfFormInCerFormChange',(list)=>{
     //   this.changeUploadList(list)
@@ -139,7 +151,7 @@ export default class Upload extends React.Component {
             this.addPostParam('domain', document.domain);
           }
           let {id,name,suffix:ext,data} = file;
-          _this.changeUploadList([..._this.state.uploadList, { fileId:id, name,ext,data,status: 'pending' }])
+          _this.changeUploadList([..._this.state.uploadList, { id, name,ext,data,status: 'pending' }])
         })
         .on('uploadSuccess', function(file, data, xhr) {
           // console.log('uploadSuccess', file, data);
@@ -152,7 +164,7 @@ export default class Upload extends React.Component {
                 //success
                 let { id, name, ext, src, fileSize } = data.data;
                 let newFile = {
-                  fileId: id,
+                  id,
                   fileSize,
                   name,
                   ext,
@@ -161,7 +173,7 @@ export default class Upload extends React.Component {
                 };
                 let list = [..._this.state.uploadList, newFile];
                 list = list.filter(item => {
-                  return item.fileId !== file.id&&item.status!='pending'
+                  return item.id !== file.id&&item.status!='pending'
                 });
                 _this.changeUploadList(list);
                 _this.setState({
@@ -185,7 +197,7 @@ export default class Upload extends React.Component {
           let {uploadList} = _this.state;
           for(let i=0;i<uploadList.length;i++){
             let listItem = uploadList[i];
-            if(listItem.fileId == file.id){
+            if(listItem.id == file.id){
               listItem.status = 'error'
             }
           }
@@ -215,6 +227,7 @@ export default class Upload extends React.Component {
   }
   render() {
     let { placeholder, name, data } = this.props;
+    // console.log('this.state.uploadList',this.state.uploadList)
     return (
       <Fragment>
         <div id="uploader" />
@@ -228,8 +241,8 @@ export default class Upload extends React.Component {
           className="attach-list"
           namekey="name"
           extkey="ext"
-          urikey="uri"
-          fileIdkey="fileId"
+          urikey="src"
+          fileIdkey="id"
           type="edit"
           onChange={data => {
             this.changeUploadList(data);

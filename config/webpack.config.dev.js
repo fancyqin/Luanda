@@ -6,6 +6,8 @@ module.exports = merge(baseConfig,{
     devtool:'inline-source-map',
     devServer:{
         contentBase:'../dist',
+        host: '0.0.0.0',
+        useLocalIp:true,
         port:'2019',
         historyApiFallback: {
             rewrites: [

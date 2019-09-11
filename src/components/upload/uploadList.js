@@ -17,8 +17,9 @@ export default class UploadList extends React.Component {
   }
 
   render() {
-    const { children, className: className = '', data , type='edit',namekey='name',extkey='ext',urikey='uri',fileIdkey='id',onRetry} = this.props;
-
+    //   console.log('data-++++++++++________+++++',this.props.data)
+    const { children, className: className = '', data , type='edit',namekey='name',extkey='ext',urikey='src',fileIdkey='id',onRetry} = this.props;
+    
     return (
       <div className={className}>
         {data &&
