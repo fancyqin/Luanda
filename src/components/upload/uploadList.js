@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import UploadListItem  from './uploadListItem';
 export default class UploadList extends React.Component {
   constructor(props) {
@@ -19,7 +19,8 @@ export default class UploadList extends React.Component {
   render() {
     //   console.log('data-++++++++++________+++++',this.props.data)
     const { children, className: className = '', data , type='edit',namekey='name',extkey='ext',urikey='src',fileIdkey='id',onRetry} = this.props;
-    
+    if (!data || data.length <1) return <Fragment />
+
     return (
       <div className={className}>
         {data &&
