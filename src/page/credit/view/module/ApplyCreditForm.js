@@ -328,7 +328,8 @@ class ApplyCreditForm extends React.Component {
             let {initValue} = this.props;
             if(name.indexOf('file')> -1){
                 let fileData = (initValue[name] && initValue[name].length > 0)? initValue[name].map(item=>{item.stutus = 'success';return item}):[];
-                return <UploadList
+                return fileData.length > 0 ? <div className="upload-list-show">
+                <UploadList
                 data={fileData}
                 className="attach-list"
                 namekey="name"
@@ -337,6 +338,7 @@ class ApplyCreditForm extends React.Component {
                 fileIdkey="id"
                 type="read"
               />
+              </div>:<div className="applying-inner">-</div>
             }else{
                 if(name === 'creditLimit'){
                     initValue[name] = usUnit + ' ' + currency(initValue[name], { precision: 0 }).format();
@@ -567,27 +569,6 @@ class ApplyCreditForm extends React.Component {
                         <Fragment>
                             {renderUpload('fileEin')}
                         </Fragment>
-                        // <Upload4Ant name='fileEin' />
-                        // <Upload
-                        //     fileTypes="*.png, *.jpg, *.jpeg, *.xls, *.xlsx, *.doc, *.docx, *.pdf"
-                        //     max={1}
-                        //     postParams={uploadParams}
-                        //     // onQueued={() => this.hideUploadRequiredErr()}
-                        //     onChange={list => {
-                                
-                        //         this.setState({
-                        //             uploadFile:{
-                        //                 fileIrs: list
-                        //             }
-                        //         });
-                        //     }}
-                        //     onError={err=>{
-                        //         setFields({fileIrs:{value:'',errors:[new Error(err)]}})
-                        //     }}
-                        //     sizeLimit="10MB"
-                        //     name="fileIrs"
-                        //     data={this.state.uploadFile.fileIrs}
-                        // />
                     )}
                 </Form.Item>
                 <Form.Item label="W9">
@@ -618,11 +599,10 @@ class ApplyCreditForm extends React.Component {
                     {getApplyFieldDecorator('fileOthers')(
                         <Fragment>
                             {renderUpload('fileOthers',10)}
-                            <span className="upload-tip">For example: Bank Statement, Imcome Statement, Cash flow analysis, Other Comprehensive Income Report –Previous 6 months.</span>
+                            <span className="upload-tip">For example: Bank Statement, Imcome Statement, Cash flow analysis, Other Comprehensive Income Report<br/>– Previous 6 months.</span>
                         </Fragment>
                     )}
                 </Form.Item>
-
 
                 {
                     !applying && <Fragment>

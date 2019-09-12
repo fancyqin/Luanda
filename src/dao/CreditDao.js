@@ -13,13 +13,14 @@ const postAxios = axios.create({
 //get请求，判断10002时身份不符，返回403
 getAxios.interceptors.response.use(function(res){
     const {code,data} = res.data;
-    if(code==='10001'){
-        return res.data
-    }else if(code==='10002'){
-        window.location.replace('/error/403');
-    }else{
-        message.error('Unknown Error.')
-    }
+    return res.data
+    // if(code==='10001'){
+    //     return res.data
+    // }else if(code==='10002'){
+    //     window.location.replace('/error/403');
+    // }else{
+    //     message.error('Unknown Error.')
+    // }
 });
 
 

@@ -69,7 +69,7 @@ export default class CreditListPage extends Component {
     Promise.all([creditDao.getCreditInfo(), creditDao.getBillList()]).then(
       ([creditInfo, billList]) => {
         if(creditInfo.data.creditStatus!='1'){
-          window.location.href='//crov.com/error/403';
+          window.location.href='/applyCredit';
           return
         }
         this.setState({
@@ -169,19 +169,19 @@ export default class CreditListPage extends Component {
             <Tabs type="card" tabBarGutter={0} tabBarStyle={{ height: '66px' }}>
               {billList &&
                 billList.map((item, idx) => {
-                  let tabTemp = (
-                    <div className="tabCard">
-                      <p className="tab-title">{billLabel[idx]}</p>
-                    </div>
-                  );
-                  if (idx < 2) {
-                    tabTemp = (
+                  // let tabTemp = (
+                  //   <div className="tabCard">
+                  //     <p className="tab-title">{billLabel[idx]}</p>
+                  //   </div>
+                  // );
+                  // if (idx < item) {
+                  let  tabTemp = (
                       <div className="tabCard">
-                        <p className="tab-title">{billLabel[idx]}</p>{' '}
+                        <p className="tab-title">{item.billName}</p>
                         <span>{item.billCycle}</span>
                       </div>
                     );
-                  }
+                  // }
                   return (
                     <Tabs.TabPane tab={tabTemp} key={idx}>
                       <Bill

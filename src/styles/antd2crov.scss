@@ -94,3 +94,24 @@ body{
     transition: all .1s ease-in;
 
 }
+
+@media screen and (max-width:768px) {
+    .ant-form{
+        label{
+            font-size: 12px;
+        }
+    }
+    .ant-form-item-label{
+        height: auto;
+    }
+    .ant-form-item{
+        font-size: 12px;
+    }
+    .ant-col-xs-24.ant-form-item-label{
+        padding-bottom: 0;
+        label::after {
+            display: inline;
+        }
+    }
+}
+

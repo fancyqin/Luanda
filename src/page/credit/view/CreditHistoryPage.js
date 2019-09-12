@@ -129,9 +129,10 @@ export default class CreditHistory extends Component {
 
     Promise.all([creditDao.getCreditInfo(), creditDao.getHistoryList()])
       .then(([creditInfo, historyList]) => {
-        let { status } = creditInfo;
+        let { status,creditStatus } = creditInfo;
         // XXX:
-        // if(status!='1'&&status!='3')window.location.href = '//crov.com/error/403';
+        if(creditStatus!='1')window.location.href = '/applyCredit'
+        if(status!='1'&&status!='3')window.location.href = '//crov.com/error/403';
         let { list } = historyList.data;
         this.setState({
           billList: this.sortList(list),

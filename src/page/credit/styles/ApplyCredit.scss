@@ -84,6 +84,11 @@ body{
         display: block;
         
     }
+    .upload-list-show{
+        .attach-list{
+            padding-top: 0;
+        }
+    }
     .form-error.error{
         color: $color-main-red;
     }
@@ -103,6 +108,8 @@ body{
         .applying-inner{
             color: #222;
             word-wrap: break-word;
+            padding: 7px 0 5px;  
+            line-height: 20px;
         }
         
     }

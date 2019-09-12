@@ -6,8 +6,10 @@ import CreditDetailPage from './view/CreditDetailPage';
 import CreditListPage from './view/CreditListPage';
 import CreditHistoryPage from './view/CreditHistoryPage';
 // import NotFoundPage from '@/components/noFound/NoFoundPage'
-import '../../styles/ant.less'
+import "antd/dist/antd.less";
+import '../../styles/ant.less';
 import './index.scss';
+
 
 class App extends Component {
   render() {

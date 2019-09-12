@@ -93,7 +93,7 @@ function generateBill(data, keys) {
     repaymentDateTemp,
     detailTemp;
 
-  if (remainingAmount && keys.indexOf('remainingAmount') > -1) {
+  if (remainingAmount!=undefined && keys.indexOf('remainingAmount') > -1) {
     remainingTemp = (
       <div className="bill-info-item">
         <span>Remaining Amount of Repayment</span>
@@ -102,7 +102,7 @@ function generateBill(data, keys) {
     );
   }
 
-  if (unConfirmedAmount && keys.indexOf('unConfirmedAmount') > -1) {
+  if (unConfirmedAmount!=undefined && keys.indexOf('unConfirmedAmount') > -1) {
     unConfirmedTemp = (
       <div className="bill-info-item">
         <span>Amount to be confirmed of Repayment</span>
@@ -111,7 +111,7 @@ function generateBill(data, keys) {
     );
   }
 
-  if (totalAmount && keys.indexOf('totalAmount') > -1) {
+  if (totalAmount!=undefined && keys.indexOf('totalAmount') > -1) {
     totalTemp = (
       <div className="bill-info-item">
         <span>Total Bill Amount</span>
@@ -120,7 +120,7 @@ function generateBill(data, keys) {
     );
   }
 
-  if (repaidAmount && keys.indexOf('repaidAmount') > -1) {
+  if (repaidAmount!=undefined && keys.indexOf('repaidAmount') > -1) {
     repaidTemp = (
       <div className="bill-info-item">
         <span>Repaid Amount of Repayment</span>
@@ -129,7 +129,7 @@ function generateBill(data, keys) {
     );
   }
 
-  if (repaymentDate && keys.indexOf('repaymentDate') > -1) {
+  if (repaymentDate!=undefined && keys.indexOf('repaymentDate') > -1) {
     repaymentDateTemp = (
       <div className="bill-info-item">
         <span>Repayment Date</span>

@@ -11,5 +11,8 @@ export {
     ExclamationCircleFill,
     ExclamationCircleOutline,
     LoadingOutline,
-    Loading3QuartersOutline
+    Loading3QuartersOutline,
+    SelectOutline,
+    ArrowLeftOutline,
+    DownOutline
 } from '@ant-design/icons'
