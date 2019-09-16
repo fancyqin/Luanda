@@ -341,7 +341,11 @@ class ApplyCreditForm extends React.Component {
               </div>:<div className="applying-inner">-</div>
             }else{
                 if(name === 'creditLimit'){
-                    initValue[name] = usUnit + ' ' + currency(initValue[name], { precision: 0 }).format();
+                    return <div className="applying-inner">{usUnit + ' ' + currency(initValue[name], { precision: 0 }).format()}</div>
+                }
+                if(name === 'ownerPhone' || name=== 'contactPhone'){
+
+                    return <div className="applying-inner">{'+1 '+ initValue[name]}</div>
                 }
                 return <div className="applying-inner">{this.renderEnter(initValue[name])}</div>
             }
@@ -353,11 +357,12 @@ class ApplyCreditForm extends React.Component {
 	render() {
         const {initValue,form} = this.props;
         const { getFieldDecorator,getFieldValue,getFieldError,setFields} = form;
-        let applying = initValue.creditStatus === '2';
+        let applying = initValue.creditStatus === '2' && initValue.creditStatus === '5' ;
+        let unApply =  initValue.creditStatus === '3'
         let getApplyFieldDecorator = applying ?this.getApplyingFieldDecorator:getFieldDecorator;
         const nowYear = new Date().getFullYear();
         let yearOptions = [<Option key={'option-0'} value=''>Please Select</Option>];
-        for(let i = nowYear; i> nowYear - 200;i--){
+        for(let i = nowYear; i> nowYear - 200;i--){applying
             yearOptions.push(<Option key={'option-'+i} value={i}>{i}</Option>)
         }
         const uploadParams = {abIds:initValue.currentBusi,type:'pcf'}
@@ -416,7 +421,7 @@ class ApplyCreditForm extends React.Component {
             <Form {...formItemLayout}>
 
                 {applying && <div className="credit-status">
-                        <div style={{fontWeight:'bold',fontSize:16}}>Pending</div>
+                        <div style={{fontWeight:'bold',fontSize:16}}>{initValue.creditStatus === '2'?'Pending':'Deleted'}</div>
                     </div>}
 ￼
                 {initValue.creditStatus === '4' && (
@@ -599,7 +604,7 @@ class ApplyCreditForm extends React.Component {
                     {getApplyFieldDecorator('fileOthers')(
                         <Fragment>
                             {renderUpload('fileOthers',10)}
-                            <span className="upload-tip">For example: Bank Statement, Imcome Statement, Cash flow analysis, Other Comprehensive Income Report<br/>– Previous 6 months.</span>
+                            <span className="upload-tip">For example: Bank Statement, Imcome Statement, Cash flow analysis, Other Comprehensive Income Report –Previous 6 months.</span>
                         </Fragment>
                     )}
                 </Form.Item>
@@ -607,30 +612,36 @@ class ApplyCreditForm extends React.Component {
                 {
                     !applying && <Fragment>
 
-                        <h2 className="form-block-title">Agreement</h2>
-                        <Form.Item {...tailFormItemLayout} style={{marginBottom: 0}}>
-                            <div className="ant-col-sm-18">
-                                <Input.TextArea style={{height: 300,resize:'none'}} value={agreementText} readOnly />
-                            </div>
-                        </Form.Item>
-                        <Form.Item {...tailFormItemLayout}>
-                            <div className ="ant-col-sm-18" style={{display:'flex',justifyContent:'space-between',lineHeight:1.5}}>
-                                {getApplyFieldDecorator('agreementCheck', ApplyCreditRules.agreement)(
-                                    <Checkbox>I have read and agree to the above Terms and Conditions.</Checkbox>
-                                )}
-                                <a style={{whiteSpace:'nowrap',marginLeft: 20}} href={initValue.agreementPdfUrl} target="_blank"><i className="ob-icon icon-print"></i> Print</a>
-                            </div>
-                        </Form.Item>
+                        {unApply && (
+                            <Fragment>
+                                <h2 className="form-block-title">Agreement</h2>
+                                <Form.Item {...tailFormItemLayout} style={{marginBottom: 0}}>
+                                    <div className="ant-col-sm-18">
+                                        <div className="agreement-wrap">
+                                            {agreementText}
+                                        </div>
+                                    </div>
+                                </Form.Item>
+                                <Form.Item {...tailFormItemLayout}>
+                                    <div className ="ant-col-sm-18" style={{display:'flex',justifyContent:'space-between',lineHeight:1.5}}>
+                                        {getApplyFieldDecorator('agreementCheck', ApplyCreditRules.agreement)(
+                                            <Checkbox>I have read and agree to the above Terms and Conditions.</Checkbox>
+                                        )}
+                                        <a style={{whiteSpace:'nowrap',marginLeft: 20}} href={initValue.agreementPdfUrl} target="_blank"><i className="ob-icon icon-print"></i> Print</a>
+                                    </div>
+                                </Form.Item>
+                            </Fragment>
+                        )}
 
-                        
-                        
                         <Form.Item {...tailFormItemLayout}>
                             <Button type="main" htmlType="submit" onClick={this.handleSubmit}>
                                 Submit
                             </Button>
-                            <Button style={{marginLeft: 10,}} onClick={this.handleSaveDraft} >
-                                Save Draft
-                            </Button>
+                            {unApply && (
+                                <Button style={{marginLeft: 10,}} onClick={this.handleSaveDraft} >
+                                    Save Draft
+                                </Button>
+                            )}
                         </Form.Item>
                     
                     </Fragment> 

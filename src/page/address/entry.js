@@ -1,7 +1,6 @@
 import React,{Component} from 'react'
 import ReactDOM from 'react-dom'
 
-import 'antd/dist/antd.less'
 import '../../styles/ant.less'
 
 class App extends Component {

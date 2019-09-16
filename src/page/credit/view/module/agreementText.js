@@ -1,23 +1,53 @@
-export default `TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST 
-WAITING FOR PRODUCT MAMANGER!!!!!!!!!
-WAITING FOR PRODUCT MAMANGER!!!!!!!!!
-WAITING FOR PRODUCT MAMANGER!!!!!!!!!
-WAITING FOR PRODUCT MAMANGER!!!!!!!!!
-WAITING FOR PRODUCT MAMANGER!!!!!!!!!
-WAITING FOR PRODUCT MAMANGER!!!!!!!!!
-WAITING FOR PRODUCT MAMANGER!!!!!!!!!
-WAITING FOR PRODUCT MAMANGER!!!!!!!!!
-WAITING FOR PRODUCT MAMANGER!!!!!!!!!
-WAITING FOR PRODUCT MAMANGER!!!!!!!!!
-MARCUS JORDAN (Michael Jordan's son): I remember all of it. It as a fun weekend, spent with family. I think it was one of my dad's most special weekends, and greatest achievements. … Growing up, I definitely saw him emotional. But I don’t think it was the same emotions he had that day.
+import React from 'react';
 
-STEPHAN SAVOIA (Associated Press photographer): So he comes up, he's introduced. He walks up to the podium, and drops his head, and starts crying. Before he said a word. … As soon as he walked up and his head was down, we knew there was an emotion there that was probably honest in its origin. And it became apparent, once he started talking, that he was truly humbled.
-
-MARCUS JORDAN: The realization that his playing days were over, and just the culmination of his career, led to him being overfilled with joy.
-
-STEPHAN SAVOIA (AP): The Hall of Fame, I've probably covered it at least half the years I've been working here. I did Charles Barkley, I did a number of the big guys. And there's never any emotion like that. … He was overcome by tears. He couldn't speak.
-
-It's not a heavily attended event for press photographers. There’s basically only five or six of us. They all, in that first minute or so, decided, he's crying – [after snapping pictures] the Reuters guy pulls his disc, he's about to file. Once one guy pulls his disc, when you’re in a group like that, everybody starts pulling their disc.
-
-But Jordan wasn't done crying. So I just hung in there. And about 10 seconds after they all get their discs in their computers, and they're in the middle of scanning, Jordan raises his head.
-`
+export default <div className="agree-text">
+<h2>Crov Credit Service Agreement</h2>
+<p>This Credit Service Agreement is made and effective between <span className="under-line">Crov, Inc.</span>  (hereinafter referred to as "CROV"), as the operator of the Crov.com e-commerce platform (hereinafter referred to as "Crov Platform"), and the undersigned platform user (hereinafter referred to as the "buyer") who applies for the Credit Service online through the CROV platform, for the purpose of purchasing goods and/or services on the Crov platform. </p>
+<p><b>Special Remarks:</b></p>
+<p><b>Terms that may be closely related to your rights and interests in this agreement have been marked in bold, please read them carefully.</b></p>
+<p>In order to provide the buyer with a better service, as the business development of Crov platform，this agreement may be updated time to time accordingly. However, CROV will not limit the buyer’s rights under this agreement without the buyer’s explicit consent. CROV will post the updated terms on its official website and inform the buyer by making an announcement or by other appropriate means before the updated terms go into effect.</p>
+<p><b>By completing the application for the Crov Credit service, you are deemed to have fully read, understood and accepted the content of this agreement. Your application for and use of the Crov Credit service will be deemed as your acceptance of this agreement and acceptance to be bound by the terms of this agreement. If you disagree with the terms of this agreement, you shall immediately stop applying for the Crov Credit service or stop using the Crov Credit service after paying off the used balance.</b></p>
+<br />
+<p>I. Service Content:</p>
+<p>Crov Credit Service (hereinafter referred to as “the Service”) is the credit line service for purchasing specific goods provided by CROV to the buyer on the Crov.com platform. Once the application is approved by CROV and other third-party credit bureau with which CROV cooperates, the buyer can use the credit line to make payments when ordering specific goods on the Crov platform and must repay the used balance by the due date.</p>
+<br />
+<p>II. Service Conditions</p>
+<p>1. The initiation of this service requires the buyer to apply to CROV separately. The buyer of the Crov.com platform applying for the service must meet the following service access conditions: </p>
+<p> (1) The applicant shall be the buyer’s enterprise;</p>
+<p> (2) The buyer’s enterprise has been registered in the United States for six months or more with a live status;</p>
+<p> (3) The applicant shall have sound credit record, and a legal and stable source of income and solvency; </p>
+<p> (4) The applicant meets other entry criteria set by CROV for the Service</p>
+<p>2. By signing on the signature page of this agreement or by using the Service, it shall be deemed that the buyer has understood and accepted every term in this agreement, and agrees to be bound by it.</p>
+<p><b>3. The buyer understands and agrees that CROV will entrust a legally established third-party credit bureau to verify the authenticity of the information provided by the buyer, and will regard the verification results from the third-party credit institution as an important factor in deciding whether to provide the service to the buyer or not.</b></p>
+<p><b>4. The buyer understands and agrees that in order to use the service, in addition to the relevant information of the enterprise or individual, the buyer may need to provide an EIN confirmation letter, a W9 form stamped or signed by the business owner, a Letter of Authorization and other materials for further credit review; the materials provided should be authentic and valid.</b></p>
+<p>5. The service is designed to meet the buyer's fund turnover requirements for specific goods. The buyer shall ensure that the credit line is used within its own business scope, which means the buyer can only use the credit line to purchase specific goods that have been approved at the time of application. If the buyer uses the credit line to purchase goods other than the approved ones on Crov platform, CROV will reserve the right to reject the order without bearing the relevant responsibility therefore.</p>
+<p><b>6. The buyer understands and agrees that the service provided by CROV is based on the buyer's credit status. Under circumstances such as an existing overdue balance on the buyer’s account, declining enterprise credit status, expiration of the payment period for the purchased items, or in other cases that the buyer no longer meet the service access conditions, CROV will reserve the right to adjust the buyer's credit limit or to stop providing the service to the buyer.</b></p>
+<p>7. The buyer shall notify CROV immediately in the events of information changes or expiration of materials provided to CROV. <b>The buyer shall bear the consequences and losses caused by the inaccuracy, incorrectness, incompleteness or untimely update of the materials and information provided. If CROV suffers losses due to the above circumstances, CROV reserves the right to require the buyer to make compensation according to the actual loss, and CROV will also reserve the right to terminate the service without bearing responsibility.</b></p>
+<p><b>8. Unless obtaining the explicit authorization from the buyer, CROV ensures that the materials and related information collected from the buyer will only be used for the credit evaluation process and other business related to the service exclusively. None of the information will be shared with any unauthorized third party.</b></p>
+<br />
+<p>III. Rules for the Verification, Use, Repayment and Related Fees Calculation of the Service</p>
+<p>1. The specific credit limit: When applying for the service, the buyer must fill in the expected credit limit to be granted on the application page, which shall be the minimum amount that could meet the daily business turnover. Upon receiving the application, CROV will evaluate the results presented by the third-party credit bureau and the relevant information submitted by the buyer comprehensively. <b>The buyer's final credit limit is subject to the amount that Crov decides to grant.</b></p>
+<p>2. When placing an order on the Crov platform, the buyer can pay the order with the available credit balance. If the available credit balance is not enough to fully pay for the order, the buyer must use its own funds to pay the remaining part. For any order that has not been paid in full, the credit balance will be temporarily locked until the order is cancelled or closed. To release the locked balance, the buyer needs to cancel or close the current order and place a new one. <b>The maximum interest-free repayment period for the service is 56 days (inclusive) after paying for an order with the service successfully.</b></p>
+<p><b>3. In order to ensure the security of the transaction, when the buyer is using the service to pay for the order, password verification is required. Only the verified transactions can be successfully paid. The payment password is set by the buyer after the application for the service. Each verified transaction is deemed to be authorized by the buyer.  CROV will not be liable for any disagreement, dispute or loss caused by the order supplier, and the corresponding liability or loss will be the buyer’s responsibility.</b></p>
+<p><b>4. If the buyer fails to repay the balance in full before the due date, CROV will charge __0.05%__ of the overdue amount per day additionally as overdue penalty.</b></p>
+<p>5. Unless the overdue balance is paid off in full, the buyer's remaining credit limit will be frozen and the service status will turn to temporarily unavailable; when the buyer pays off the outstanding balance in full, CROV will restore the service to available status within a reasonable period of time. Meanwhile, CROV has the right to decide whether to adjust the buyer's credit limit or not, based on the current circumstances of the buyer at the moment of the service restoration.</p>
+<p><b>6. The buyer shall know and accept that the buyer shall pay the principal of the used credit limit and the applicable penalty for overdue balance on time in accordance with the provisions of this agreement, and may not refuse to pay them on the grounds of dispute with merchants using the Crov platform or with other third parties. The repayment for the service shall be made by means of bank transfer. CROV does not accept the repayment with credit cards.</b></p>
+<p>7. The buyer shall know and accept that when the amount of repayment or refund for the order surpasses the billed repayment amount in any given period, the remaining will be used against the unpaid balance preferentially; if there is still surplus, Crov platform will convert the surplus into available balance, which will be preferentially deducted at the moment of payment for the next order with the credit line. After the surplus is used as available balance, it will not be restored, and the buyer is not required to make repayment for this portion of the total used balance. Also, Crov carries no obligations to pay any interest, dividends or other monetary returns to the buyer for the surplus (if any) generated during the use of the service by the buyer.</p>
+<br />
+<p>IV. Adjustment or Termination of the Service </p>
+<p>During the life cycle of this service, both parties shall abide by the terms and properly perform their respective obligations. </p>
+<p>The buyer shall know and agree that during the existence of the service relationship, CROV may adopt relevant measures for the service based on the buyer's performance and the buyer's credit status obtained from an authorized third party, and Crov will provide the relevant information to the credit bureau entrusted by Crov as follows:</p>
+<p><b>1. Specific circumstances that may result in credit lines adjustments, penalty charge, or service termination include but not limited to:</b></p>
+<p> 1) For the buyers who have obtained the credit line but never use the service for a period of more than 6 consecutive months, CROV reserves the right to terminate the service unilaterally. The buyers must re-apply to Crov if they need the service again.</p>
+<p> 2) For the buyers who have obtained the credit line, if any of the following events occur during the period of use, CROV reserves the right to adjust the buyer's payment credit limit or suspend/terminate the service:</p>
+<p>&nbsp;&nbsp;① In the process of using the service of Crov platform, the relevant issues such as disputes, refunds, chargeback, order cancellation, etc. are caused by the buyer upon the assessment of CROV;</p>
+<p>&nbsp;&nbsp;② During the period of use of the service, the buyer's credit status fluctuates so intensely that may affect the buyer's ability to repay as assessed by CROV or other third-party agency entrusted by CROV;</p>
+<p>&nbsp;&nbsp;③ The buyer fails to make repayment (in full) on time after using the credit line.</p>
+<p>&nbsp;&nbsp;④ Other negative circumstances under which CROV decides to take relevant measures upon assessment by CROV or the third-party institution entrusted by CROV</p>
+<p> 2. The suspension or termination of the service due to the above reasons shall not relieve the buyer of the repaying obligation. If there is still balance to be paid at that time, the buyer still shall make repayment in time to Crov according to this agreement.</p>
+<p> <b>3. If the buyer fails to pay off the relevant amount in full within the agreed time limit, CROV reserves the right to collect arrears from the buyer or account contact person by telephone, letter, drop-in or judicial means by itself or by a legally established third-party entrusted institution.</b> At that time, if there is still other unfinished order in the buyer‘s Crov platform account, CROV reserves the right to suspend the service for the respective orders until the buyer makes repayment in full, without bearing responsibility therefore, meanwhile, subsequent charges and legal fees shall be paid by the buyer.</p>
+<p> 4. As business develops, the buyer who pays the balance on time and meets other credit raising standard set by CROV may apply for more credit after a six month period since the previous application. The application shall be initiated via “Contact Us” on the Crov platform by the buyer. CROV will review the instant account status and credit status of the buyer comprehensively, and release the credit line to the approved applicant within a reasonable period of time.</p>
+<br />
+<p>V. Dispute Resolution</p>
+<p>Any dispute that could arise in the process of performing this agreement shall be resolved by the parties through negotiation first; if the negotiation fails, both of the parties consent to file a lawsuit with the court of competent jurisdiction in accordance to the legal jurisdiction, and waive other jurisdictions.</p>
+</div>

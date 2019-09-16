@@ -174,8 +174,8 @@ export default class Upload extends React.Component {
                 let list = [..._this.state.uploadList, newFile];
                 list = list.filter(item => {
                   return item.id !== file.id&&item.status!='pending'
-                });
-                _this.changeUploadList(list);
+								});
+								_this.changeUploadList(list);
                 _this.setState({
                   errTip: ''
                 });
@@ -194,25 +194,34 @@ export default class Upload extends React.Component {
         })
         .on('uploadError', function(file) {
           // console.log('uploadError',file);
-          let {uploadList} = _this.state;
-          for(let i=0;i<uploadList.length;i++){
-            let listItem = uploadList[i];
-            if(listItem.id == file.id){
-              listItem.status = 'error'
-            }
-          }
-          _this.changeUploadList(uploadList);
+        //   let {uploadList} = _this.state;
+        //   for(let i=0;i<uploadList.length;i++){
+        //     let listItem = uploadList[i];
+        //     if(listItem.id == file.id){
+        //       listItem.status = 'error'
+        //     }
+        //   }
+        //   _this.changeUploadList(uploadList);
+            _this.uploadError('Upload Failed.');
         })
         .on('queueError', function(file, errorCode, message) {
           // console.log('queueError', file, errorCode, message);
           if (errorCode === -130) {
-            _this.setState({
-              errTip: UPLOAD_ERR.fileType
-            });
+            if(_this.props.onError){ //如果传了onError，就不再自行报错。
+							_this.props.onError(UPLOAD_ERR.fileType);
+						}else{
+							_this.setState({
+										errTip:UPLOAD_ERR.fileType
+								});
+						}
           } else if (errorCode === -110) {
-            _this.setState({
-              errTip: UPLOAD_ERR.size
-            });
+						if(_this.props.onError){ //如果传了onError，就不再自行报错。
+							_this.props.onError(UPLOAD_ERR.size);
+						}else{
+							_this.setState({
+										errTip:UPLOAD_ERR.size
+								});
+						}
           }
         });
       this.uploader = uploader;

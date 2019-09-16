@@ -23,7 +23,8 @@ export default class CreditListPage extends Component {
         remainingCredit: 0,
         usedCredit: 0,
         unpaidCredit: 0,
-        status: 'Valid'
+        status: 'Valid',
+        payPwSet: 0
       },
       billList: [],
       repaymentErr: '',
@@ -33,7 +34,7 @@ export default class CreditListPage extends Component {
   }
 
   modalConfirm() {
-    if(this.state.repaymentErr)return;
+    if (this.state.repaymentErr) return;
     this.modalCancel();
     let value = this.repaymentInput.current.state.value;
     window.location.href = `/crov-credit/receipt?amount=${value}`;
@@ -68,13 +69,13 @@ export default class CreditListPage extends Component {
   componentDidMount() {
     Promise.all([creditDao.getCreditInfo(), creditDao.getBillList()]).then(
       ([creditInfo, billList]) => {
-        if(creditInfo.data.creditStatus!='1'){
-          window.location.href='/applyCredit';
-          return
+        if (creditInfo.data.creditStatus != '1') {
+          window.location.href = '/credit/applyCredit';
+          return;
         }
         this.setState({
           creditInfo: creditInfo.data,
-          billList: billList.data.list||[]
+          billList: billList.data.list || []
         });
       }
     );
@@ -96,8 +97,14 @@ export default class CreditListPage extends Component {
             <h3>
               Crov Credit
               <span>
-                If you have an extension request, please{' '}
-                <a href="//www.crov.com/help/contact-us.html">contact us</a>.
+                If you have any questions, please{' '}
+                <a
+                  href="//www.crov.com/help/contact-us.html?subject=Crov Credit"
+                  target="_blank"
+                >
+                  contact us
+                </a>
+                .
               </span>
             </h3>
           </div>
@@ -144,14 +151,16 @@ export default class CreditListPage extends Component {
                 className="credit-btns btn-groups"
                 style={{ marginTop: creditStatus === 2 ? '32px' : '15px' }}
               >
-                <Button
-                  type="main"
-                  onClick={() => {
-                    this.setState({ modalVisible: true });
-                  }}
-                >
-                  Repay Now
-                </Button>
+                {creditInfo.unpaidCredit > 0 && (
+                  <Button
+                    type="main"
+                    onClick={() => {
+                      this.setState({ modalVisible: true });
+                    }}
+                  >
+                    Repay Now
+                  </Button>
+                )}
                 <Link to="/history" className="btn">
                   History Bills
                 </Link>
@@ -159,6 +168,7 @@ export default class CreditListPage extends Component {
                   className="btn psw"
                   href="//login.crov.com/payment-password/verification"
                 >
+                  {creditInfo.payPwSet ? 'Change ' : 'Set '}
                   Payment Password
                 </a>
               </div>
@@ -175,12 +185,12 @@ export default class CreditListPage extends Component {
                   //   </div>
                   // );
                   // if (idx < item) {
-                  let  tabTemp = (
-                      <div className="tabCard">
-                        <p className="tab-title">{item.billName}</p>
-                        <span>{item.billCycle}</span>
-                      </div>
-                    );
+                  let tabTemp = (
+                    <div className="tabCard">
+                      <p className="tab-title">{item.billName}</p>
+                      <span>{item.billCycle}</span>
+                    </div>
+                  );
                   // }
                   return (
                     <Tabs.TabPane tab={tabTemp} key={idx}>

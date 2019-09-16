@@ -113,5 +113,28 @@ body{
         }
         
     }
+    .agreement-wrap{
+        font-size: 12px;
+        padding: 10px;
+        border-radius: 6px;
+        border: 1px solid $color-bd_normal;
+        line-height: 1.5;
+        height: 320px;
+        overflow-x: auto;
+        margin-bottom: 8px;
+        .agree-text{
+            h2{
+                text-align: center;
+                font-size: 14px;
+                font-weight: bold;
+            }
+            p{
+                margin: 5px 0;
+            }
+            .under-line{
+                text-decoration: underline;
+            }
+        }
+    }
 }
 

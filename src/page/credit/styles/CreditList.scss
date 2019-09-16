@@ -55,6 +55,9 @@ $record_repayment:#2E8AE6;
   p {
     margin: 0;
   }
+  h3{
+    font-weight: 600;
+  }
   .credit-info {
     @extend .vo-block;
     @extend .shadow;

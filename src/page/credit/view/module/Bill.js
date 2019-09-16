@@ -83,7 +83,8 @@ function generateBill(data, keys) {
     totalAmount,
     repaidAmount,
     repaymentDate,
-    detail
+    detail,
+    billStatus
   } = data;
 
   let remainingTemp,
@@ -166,8 +167,7 @@ function generateBill(data, keys) {
                 return <Fragment key={idx}>{tempObj[item]}</Fragment>;
             })}
         </div>
-        {/* TODO: repaid 状态展示判断 */}
-        {!remainingAmount && <div className="bill-info_repaid">Repaid</div>}
+        {billStatus==2 && <div className="bill-info_repaid">Repaid</div>}
       </div>
       {detailTemp && detailTemp}
     </div>

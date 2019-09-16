@@ -20,7 +20,6 @@ let entries = {},plugins = [],chunksNames = [];
 
 PAGE_CONFIGS.forEach((item,i)=>{
     entries[item.name] = path.join(ROOTPATH,item.entryJs);
-    
     plugins.push(new HtmlWebpackPlugin({
         filename: `${item.name}/index.html`,
         template: path.join(APP_PATH,'/template.html'),

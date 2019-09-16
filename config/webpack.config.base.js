@@ -57,6 +57,13 @@ module.exports = {
           'sass-loader'
         ]
       },
+      // {
+      //     test: /\.scss$/,
+      //     issuer: /\.less$/,
+      //     use: {
+      //       loader: './sassVarsToLess.js' // Change path if necessary
+      //     }
+      // },
       {
         test: /\.less$/,
         use: [MiniCssExtractPlugin.loader, 'css-loader', 'less-loader']
@@ -82,9 +89,7 @@ module.exports = {
   optimization: {
     concatenateModules:false,
     splitChunks: {
-        minChunks:2,
       cacheGroups: {
-
         vendor: {
           test: /node_modules/,
           chunks: 'all',
@@ -95,7 +100,14 @@ module.exports = {
             )[1];
             if (packageName.match(/(ant\-design|antd)/)) return 'common-ui';
             return 'common';
-          }
+          },
+          
+        },
+        'common-ui': {
+            chunks: 'all',
+            minChunks:2,
+            test:/src\\styles/,
+            name:'common-ui'
         }
       }
     }
@@ -107,7 +119,6 @@ module.exports = {
   plugins: [
     ...plugins,
     new MiniCssExtractPlugin({
-        // moduleFilename: ({ name }) => `${name.replace('/js/', '/css/')}.css`
       filename: '[name]/[name].css',
       chunkFilename: '[name]/[name].css',
       allChunks:true
@@ -118,3 +129,4 @@ module.exports = {
     )
   ]
 };
+

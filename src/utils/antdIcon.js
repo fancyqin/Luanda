@@ -14,5 +14,7 @@ export {
     Loading3QuartersOutline,
     SelectOutline,
     ArrowLeftOutline,
-    DownOutline
+    DownOutline,
+    LeftOutline,
+    RightOutline
 } from '@ant-design/icons'
