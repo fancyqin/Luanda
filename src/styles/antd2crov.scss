@@ -3,6 +3,15 @@ body{
     background-color: initial;
     font-family: "Roboto",Arial,"Microsoft YaHei",sans-serif;
 }
+.header-placeholder-v2,.vo-sider{
+    *, *::before, *::after{
+        -webkit-box-sizing: initial;
+        box-sizing: initial;
+    }
+}
+
+
+
 .ant-input{
     padding: 5px 10px;
     border: 1px solid #ced3d9;

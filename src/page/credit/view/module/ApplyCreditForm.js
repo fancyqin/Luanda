@@ -357,7 +357,7 @@ class ApplyCreditForm extends React.Component {
 	render() {
         const {initValue,form} = this.props;
         const { getFieldDecorator,getFieldValue,getFieldError,setFields} = form;
-        let applying = initValue.creditStatus === '2' && initValue.creditStatus === '5' ;
+        let applying = initValue.creditStatus === '2' || initValue.creditStatus === '5' ;
         let unApply =  initValue.creditStatus === '3'
         let getApplyFieldDecorator = applying ?this.getApplyingFieldDecorator:getFieldDecorator;
         const nowYear = new Date().getFullYear();
@@ -419,11 +419,15 @@ class ApplyCreditForm extends React.Component {
 
 		return (
             <Form {...formItemLayout}>
-
-                {applying && <div className="credit-status">
-                        <div style={{fontWeight:'bold',fontSize:16}}>{initValue.creditStatus === '2'?'Pending':'Deleted'}</div>
-                    </div>}
-￼
+                {applying && (
+                    <div className="credit-status" style={{borderBottom:0}}>
+                        {initValue.creditStatus === '2'?
+                            <div className="status-text status-pending">Pending</div>
+                            :
+                            <div className="status-text status-deleted">Deleted</div>
+                        }
+                    </div>
+                )}
                 {initValue.creditStatus === '4' && (
                     <div className="credit-status">
                         <Form.Item label="Status">
@@ -434,7 +438,6 @@ class ApplyCreditForm extends React.Component {
                         </Form.Item>
                     </div>
                 )}
-            
 				<Form.Item label="Expected Credit Limit">
                     <div className="ant-col-sm-12">
                         {getApplyFieldDecorator('creditLimit',ApplyCreditRules.creditLimit)(

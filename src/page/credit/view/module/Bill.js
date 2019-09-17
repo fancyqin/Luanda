@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import {formtDollar} from '@/utils/currency';
 
 const CREDIT_RECORD_STATUS = [
   null,
@@ -19,10 +20,57 @@ const avaliableKeys = [
 function generateBillDetail(arr) {
   let detailTemp = arr.map((item, idx) => {
     let statusLabel = CREDIT_RECORD_STATUS[item.status];
+    /**
+     * 1 payment ; 2 refund ; 3 repayment ; 4 carried over ;
+     * payment || refund 展示 order seller
+     * carriedOver 展示结转自的月度账单的账单名称
+     * repayment 展示 Repayment
+     *
+     * */ 
+    let nameTemp;
+    switch (item.status){
+      case '1':
+      case '2':
+        if(item.list){
+          nameTemp = item.list.map((item2, idx2) => {
+            let orderTemp;
+            if (item2.orderNumber) {
+              orderTemp = (
+                <Fragment>
+                  (Order Number:{' '}
+                  <a
+                    className="orderNumber"
+                    href={item2.orderUrl && item2.orderUrl}
+                  >
+                    {item2.orderNumber}
+                  </a>{' '}
+                  )
+                </Fragment>
+              );
+            }
+            return (
+              <div key={idx2} className="order">
+                <a href={item2.sellerUrl} className="seller">
+                  {item2.sellerName}
+                </a>
+                {orderTemp && orderTemp}
+              </div>
+            );
+          })
+        }
+        break;
+      case '3':
+        nameTemp = 'Repayment';
+        break;
+      case '4':
+        // TODO: carried over 显示结转账单名称
+        nameTemp = item.carriedOVerBillName
+
+    }
     return (
       <div className="bill-detail-item" key={idx}>
         <div className="detail-wrap">
-          {item.list &&
+          {/* {item.list &&
             item.list.map((item2, idx2) => {
               let orderTemp;
               if (item2.orderNumber) {
@@ -47,7 +95,8 @@ function generateBillDetail(arr) {
                   {orderTemp && orderTemp}
                 </div>
               );
-            })}
+            })} */}
+            {nameTemp&&nameTemp}
           <div className="info">
             <span style={{ marginRight: '10px' }}>{item.billDate}</span>
             <span
@@ -61,11 +110,11 @@ function generateBillDetail(arr) {
         </div>
         <div
           className={`price ${
-            statusLabel === 'Repayment' ? 'price-repayment' : ''
+            statusLabel === 'Repayment'||statusLabel === 'Refund' ? 'price-repayment' : ''
           }`}
         >
-          {' '}
-          {statusLabel === 'Repayment' ? '-US$' : 'US$'} {item.billAmount}
+          {formtDollar(item.billAmount)}
+          {/* {statusLabel === 'Repayment' ? '-US$' : 'US$'} {} */}
         </div>
       </div>
     );
@@ -98,7 +147,7 @@ function generateBill(data, keys) {
     remainingTemp = (
       <div className="bill-info-item">
         <span>Remaining Amount of Repayment</span>
-        <p>US$ {remainingAmount}</p>
+        <p>{formtDollar(remainingAmount)}</p>
       </div>
     );
   }
@@ -107,7 +156,7 @@ function generateBill(data, keys) {
     unConfirmedTemp = (
       <div className="bill-info-item">
         <span>Amount to be confirmed of Repayment</span>
-        <p>US$ {unConfirmedAmount}</p>
+        <p>{formtDollar(unConfirmedAmount)}</p>
       </div>
     );
   }
@@ -116,7 +165,7 @@ function generateBill(data, keys) {
     totalTemp = (
       <div className="bill-info-item">
         <span>Total Bill Amount</span>
-        <p>US$ {totalAmount}</p>
+        <p>{formtDollar(totalAmount)}</p>
       </div>
     );
   }
@@ -125,7 +174,7 @@ function generateBill(data, keys) {
     repaidTemp = (
       <div className="bill-info-item">
         <span>Repaid Amount of Repayment</span>
-        <p>US$ {repaidAmount}</p>
+        <p>{formtDollar(repaidAmount)}</p>
       </div>
     );
   }

@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import { Breadcrumb } from 'antd';
 import Bill from './module/Bill';
 import creditDao from '@/dao/CreditDao';
+import {formtDollar} from '@/utils/currency';
 
 let wrapCheckIsPhone;
 
@@ -32,7 +33,7 @@ export default class CreditHistory extends Component {
             </span>
             <span className="fr" style={{fontSize:'12px'}}>{item.billCycle}</span>
           </div>
-          <span style={{fontSize:'12px'}}>US$ {item.totalAmount}</span>
+          <span style={{fontSize:'12px'}}>{formtDollar(item.totalAmount)}</span>
         </Fragment>
       );
       return this.state.isPhone ? (
@@ -66,16 +67,7 @@ export default class CreditHistory extends Component {
   }
 
   generateHistory() {
-    //TODO: HistoryObj billYear 乱序
     let res = [];
-    // for (let key in this.state.billList) {
-    //   res.push(
-    //     <ul key={key} className="list">
-    //       <li className="list-title">{key}</li>
-    //       {this.generateList(this.state.billList[key])}
-    //     </ul>
-    //   );
-    // }
     let { billList } = this.state;
     if (!billList.length) return;
     let year = billList[0].billYear;
@@ -101,7 +93,6 @@ export default class CreditHistory extends Component {
         {this.generateList(billList.slice(prev, i))}
       </ul>
     );
-    // console.log(res)
 
     return <Fragment>{res}</Fragment>;
   }
@@ -130,7 +121,6 @@ export default class CreditHistory extends Component {
     Promise.all([creditDao.getCreditInfo(), creditDao.getHistoryList()])
       .then(([creditInfo, historyList]) => {
         let { creditStatus } = creditInfo.data;
-        console.log(creditStatus)
         if(creditStatus!='1')window.location.href = '/credit/applyCredit';
         let { list } = historyList.data;
         this.setState({

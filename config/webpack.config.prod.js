@@ -6,7 +6,7 @@ const {BundleAnalyzerPlugin} = require('webpack-bundle-analyzer');
 module.exports = merge(baseConfig,{
     mode:'production',
     plugins: [
-        new CleanWebpackPlugin(),
-        new BundleAnalyzerPlugin()
+        // new CleanWebpackPlugin(),
+        // new BundleAnalyzerPlugin()
     ]
 })

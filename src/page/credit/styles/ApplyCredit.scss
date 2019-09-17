@@ -46,12 +46,26 @@ body{
 
 .apply-credit{
     font-size: 30px;
+    
     .credit-status{
         margin-bottom: 30px;
         padding-bottom: 10px;
         border-bottom: 1px solid $color-bd_normal;
+        @media screen and (max-width:575px){
+            margin-bottom: 10px;
+        }
         .ant-form-item{
             margin-bottom: 10px;
+        }
+        .status-text{
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .status-pending{
+            color: #f73;
+        }
+        .status-deleted{
+            color: $color-main-red;
         }
     }
     .vo-block{
@@ -66,8 +80,13 @@ body{
         font-weight: bold;
         padding-bottom: 5px;
         border-top: 1px solid $color-bd_normal;
-        padding-top: 40px;
+        padding-top: 30px;
         margin-top: 30px;
+        @media screen and (max-width:575px){
+            font-size: 14px;
+            padding-top: 20px;
+            margin-top: 20px;
+        }
     }
     .doc-info{
         background: #f5f7fa;
@@ -99,17 +118,15 @@ body{
                 content: ':';
             }
         }
-        .form-block-title{
-            border-top: 0;
-            padding-top: 0;
-            margin-top: 30px;
-        }
         
         .applying-inner{
             color: #222;
             word-wrap: break-word;
             padding: 7px 0 5px;  
             line-height: 20px;
+            @media screen and (max-width:575px){
+                padding-top: 0;
+            }
         }
         
     }
@@ -137,4 +154,3 @@ body{
         }
     }
 }
-

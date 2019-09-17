@@ -4,14 +4,15 @@ import { Tabs } from 'antd';
 import Bill from './module/Bill';
 import Button from '@/components/button/Button';
 import { Modal, Input } from 'antd';
-
+import {formtDollar} from '@/utils/currency';
 import creditDao from '@/dao/creditDao';
 
 const CREDIT_STATUS = [null, 'Valid', 'Invalid', 'Frozen', 'Expired'];
 const AMOUNT_ERROR = {
-  required: 'Please enter Amount.',
+  required: 'Please enter Repayment Amount.',
   invalid: 'Only number between 0.01 and 9999999.99 are allowed.'
 };
+// console.log(formtDollar(-1000.1234))
 
 export default class CreditListPage extends Component {
   constructor(props) {
@@ -57,7 +58,7 @@ export default class CreditListPage extends Component {
       } else {
         try {
           let num = Number(value);
-          errMsg = num < 0.01 || num > 9999999.99 ? AMOUNT_ERROR.required : '';
+          errMsg = num < 0.01 || num > 9999999.99 ? AMOUNT_ERROR.invalid : '';
         } catch (err) {
           errMsg = AMOUNT_ERROR.invalid;
         }
@@ -78,18 +79,25 @@ export default class CreditListPage extends Component {
           billList: billList.data.list || []
         });
       }
-    );
+    ).catch(err=>{console.warn(err)})
   }
   render() {
-    let { creditInfo, billList, repaymentErr, repaymentAmount } = this.state;
-    let creditStatus = creditInfo.status;
+    let { billList, repaymentErr, repaymentAmount } = this.state;
+    let creditStatus = this.state.creditInfo.status;
     let creditStatusLabel = CREDIT_STATUS[creditStatus];
     let creditInfoClass = '';
     if (creditStatusLabel === 'Invalid')
       creditInfoClass = 'credit-info_invalid';
     else if (creditStatusLabel === 'Frozen' || creditStatusLabel === 'Expired')
       creditInfoClass = 'credit-info_frozen';
-    let billLabel = ['已出账单', '未出账单', 'To be Confirmed'];
+    
+    let creditInfo = {
+      ...this.state.creditInfo,
+      totalCredit: formtDollar(this.state.creditInfo.totalCredit),
+      remainingCredit: formtDollar(this.state.creditInfo.remainingCredit),
+      unpaidCredit: formtDollar(this.state.creditInfo.unpaidCredit),
+      usedCredit: formtDollar(this.state.creditInfo.usedCredit),
+    }
     return (
       <div className="vo-main-wrap">
         <div className="vo-main credit">
@@ -119,7 +127,7 @@ export default class CreditListPage extends Component {
                 <Fragment>
                   Remaining Credit
                   <h3>
-                    US$ {creditInfo.remainingCredit}
+                    {creditInfo.remainingCredit}
                     {creditStatus == 1 ? (
                       ''
                     ) : (
@@ -133,16 +141,16 @@ export default class CreditListPage extends Component {
               {creditStatus == 2 ? (
                 <div className="unpaid">
                   <span>Remaining Amount of Repayment</span>
-                  <p>US$ {creditInfo.unpaidCredit}</p>
+                  <p>{creditInfo.unpaidCredit}</p>
                 </div>
               ) : (
                 <Fragment>
                   <div className="total">
-                    <p>US$ {creditInfo.totalCredit}</p>
+                    <p>{creditInfo.totalCredit}</p>
                     <span>Total Credit</span>
                   </div>
                   <div className="used">
-                    <p>US$ {creditInfo.usedCredit}</p>
+                    <p>{creditInfo.usedCredit}</p>
                     <span>Used Credit</span>
                   </div>
                 </Fragment>
@@ -151,7 +159,7 @@ export default class CreditListPage extends Component {
                 className="credit-btns btn-groups"
                 style={{ marginTop: creditStatus === 2 ? '32px' : '15px' }}
               >
-                {creditInfo.unpaidCredit > 0 && (
+                {this.state.creditInfo.unpaidCredit > 0 && (
                   <Button
                     type="main"
                     onClick={() => {
@@ -179,19 +187,12 @@ export default class CreditListPage extends Component {
             <Tabs type="card" tabBarGutter={0} tabBarStyle={{ height: '66px' }}>
               {billList &&
                 billList.map((item, idx) => {
-                  // let tabTemp = (
-                  //   <div className="tabCard">
-                  //     <p className="tab-title">{billLabel[idx]}</p>
-                  //   </div>
-                  // );
-                  // if (idx < item) {
                   let tabTemp = (
                     <div className="tabCard">
                       <p className="tab-title">{item.billName}</p>
                       <span>{item.billCycle}</span>
                     </div>
                   );
-                  // }
                   return (
                     <Tabs.TabPane tab={tabTemp} key={idx}>
                       <Bill
@@ -221,12 +222,12 @@ export default class CreditListPage extends Component {
             <div className="modal-content">
               <div>
                 <span className="title">Used Credit</span>
-                <p className="count">US$ {creditInfo.usedCredit}</p>
+                <p className="count">{creditInfo.usedCredit}</p>
               </div>
 
               <div className="mt-20">
                 <span className="title">Remaining Amount of Repayment</span>
-                <p className="count">US$ {creditInfo.unpaidCredit}</p>
+                <p className="count">{creditInfo.unpaidCredit}</p>
               </div>
 
               <div className="mt-20">
@@ -237,7 +238,7 @@ export default class CreditListPage extends Component {
                     repaymentErr ? 'has-error' : ''
                   }`}
                   addonBefore="US$"
-                  defaultValue={creditInfo.unpaidCredit}
+                  defaultValue={this.state.creditInfo.unpaidCredit}
                   onBlur={() => {
                     this.validateAmount();
                   }}
