@@ -206,7 +206,7 @@ const defaults = {
   export const formtDollar = function(num,settings){
     try{
       num = Number(num);
-      return `${num>=0?'':'-'}${usUnit}${currency(Math.abs(num),settings).format()}`
+      return `${num>=0?'':'-'}${usUnit} ${currency(Math.abs(num),settings).format()}`
     }catch(err){
       console.log(err,'error from formatCurrency: num should be a number.');
       return num;

@@ -209,14 +209,16 @@ $record_repayment:#2E8AE6;
     font-weight: 600;
   }
 }
+
 .ant-tabs.ant-tabs-card .ant-tabs-card-bar .ant-tabs-tab {
   padding: 10px 35px;
   line-height: 1.5;
   vertical-align: top;
   text-align: center;
-  // &:last-of-type {
-  //   border-right: none;
-  // }
+  border-right: none;
+  &:last-of-type {
+    border-right: 1px solid $color-bd_normal;
+  }
 }
 .ant-tabs-content {
   padding: 20px;

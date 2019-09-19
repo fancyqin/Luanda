@@ -63,42 +63,17 @@ function generateBillDetail(arr) {
         nameTemp = 'Repayment';
         break;
       case '4':
-        // TODO: carried over 显示结转账单名称
-        nameTemp = item.carriedOVerBillName
+        nameTemp = item.carriedOverBillName;
 
     }
     return (
       <div className="bill-detail-item" key={idx}>
         <div className="detail-wrap">
-          {/* {item.list &&
-            item.list.map((item2, idx2) => {
-              let orderTemp;
-              if (item2.orderNumber) {
-                orderTemp = (
-                  <Fragment>
-                    (Order Number:{' '}
-                    <a
-                      className="orderNumber"
-                      href={item2.orderUrl && item2.orderUrl}
-                    >
-                      {item2.orderNumber}
-                    </a>{' '}
-                    )
-                  </Fragment>
-                );
-              }
-              return (
-                <div key={idx2} className="order">
-                  <a href={item2.sellerUrl} className="seller">
-                    {item2.sellerName}
-                  </a>
-                  {orderTemp && orderTemp}
-                </div>
-              );
-            })} */}
-            {nameTemp&&nameTemp}
+        
+          {nameTemp&&nameTemp}
           <div className="info">
-            <span style={{ marginRight: '10px' }}>{item.billDate}</span>
+          {item.billDate&&(<span style={{ marginRight: '10px' }}>{item.billDate}</span>)}
+            
             <span
               className={`record_${
                 statusLabel === 'Carried Over' ? 'CarriedOver' : statusLabel
@@ -110,11 +85,10 @@ function generateBillDetail(arr) {
         </div>
         <div
           className={`price ${
-            statusLabel === 'Repayment'||statusLabel === 'Refund' ? 'price-repayment' : ''
+            item.billAmount<0 ? 'price-repayment' : ''
           }`}
         >
           {formtDollar(item.billAmount)}
-          {/* {statusLabel === 'Repayment' ? '-US$' : 'US$'} {} */}
         </div>
       </div>
     );

@@ -347,7 +347,7 @@ class ApplyCreditForm extends React.Component {
 
                     return <div className="applying-inner">{'+1 '+ initValue[name]}</div>
                 }
-                return <div className="applying-inner">{this.renderEnter(initValue[name])}</div>
+                return <div className="applying-inner">{initValue[name]}</div>
             }
             
         }
@@ -404,7 +404,7 @@ class ApplyCreditForm extends React.Component {
                 }}
                 onError={err=>{
                     let obj = {};
-                    obj[name] = {value:'',errors:[new Error(err)]}
+                    obj[name] = {value:getFieldValue(name),errors:[new Error(err)]}
                     setFields(obj);
                 }}
                 sizeLimit="10MB"
@@ -434,7 +434,9 @@ class ApplyCreditForm extends React.Component {
                             <div>Rejected</div>
                         </Form.Item>
                         <Form.Item label="Review Opinion">
-                            <div className="ant-col-sm-16">{initValue.reviewOpinion}</div>
+                            <div className="ant-col-sm-16" >
+                            <div className="applying-inner" dangerouslySetInnerHTML={{__html:this.renderEnter(initValue.reviewOpinion)}}></div>
+                            </div>
                         </Form.Item>
                     </div>
                 )}
@@ -607,7 +609,7 @@ class ApplyCreditForm extends React.Component {
                     {getApplyFieldDecorator('fileOthers')(
                         <Fragment>
                             {renderUpload('fileOthers',10)}
-                            <span className="upload-tip">For example: Bank Statement, Imcome Statement, Cash flow analysis, Other Comprehensive Income Report –Previous 6 months.</span>
+                            <span className="upload-tip">For example: Bank Statement, Imcome Statement, Cash flow analysis, Other Comprehensive Income Report<br></br> –Previous 6 months.</span>
                         </Fragment>
                     )}
                 </Form.Item>

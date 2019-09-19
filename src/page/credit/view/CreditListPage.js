@@ -5,14 +5,13 @@ import Bill from './module/Bill';
 import Button from '@/components/button/Button';
 import { Modal, Input } from 'antd';
 import {formtDollar} from '@/utils/currency';
-import creditDao from '@/dao/creditDao';
+import creditDao from '@/dao/CreditDao';
 
 const CREDIT_STATUS = [null, 'Valid', 'Invalid', 'Frozen', 'Expired'];
 const AMOUNT_ERROR = {
   required: 'Please enter Repayment Amount.',
   invalid: 'Only number between 0.01 and 9999999.99 are allowed.'
 };
-// console.log(formtDollar(-1000.1234))
 
 export default class CreditListPage extends Component {
   constructor(props) {
@@ -159,7 +158,7 @@ export default class CreditListPage extends Component {
                 className="credit-btns btn-groups"
                 style={{ marginTop: creditStatus === 2 ? '32px' : '15px' }}
               >
-                {this.state.creditInfo.unpaidCredit > 0 && (
+                {this.state.creditInfo.usedCredit > 0 && (
                   <Button
                     type="main"
                     onClick={() => {

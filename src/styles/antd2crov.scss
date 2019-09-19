@@ -110,9 +110,7 @@ body{
             font-size: 12px;
         }
     }
-    .ant-form-item-label{
-        height: auto;
-    }
+
     .ant-form-item{
         font-size: 12px;
     }
@@ -121,6 +119,14 @@ body{
         label::after {
             display: inline;
         }
+    }
+    .has-error .ant-form-explain, .has-error .ant-form-split{
+        font-size: 12px;
+    }
+}
+@media screen and (max-width: 575px){
+    .ant-form-item-label{
+        height: auto;
     }
 }
 

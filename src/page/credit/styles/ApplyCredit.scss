@@ -12,6 +12,17 @@ body{
     .apply-credit{
         margin-left: 0;
     }
+    @media screen and (max-width: 1023px){
+        .header-placeholder-v2 {
+            height: 110px;
+        }
+        .header-wrap.fixed {
+            position: relative;
+            top: 0;
+            width: 100%;
+            transform: none;
+        }
+    }
 }
 .textarea-with-number{
     position:relative;

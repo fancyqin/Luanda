@@ -29,9 +29,15 @@
     .bill-info-item {
       flex-basis: 100%;
     }
+    .bill-info_repaid{
+      display: none;
+    }
     .bill-detail {
       padding: 15px;
       border-radius: 6px;
+    }
+    .price {
+      flex-basis: 100%;
     }
   }
 }

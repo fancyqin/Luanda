@@ -70,9 +70,16 @@
       padding: 10px 20px;
     }
     .bill-info-item {
-      flex-basis: 50%;
       margin: 10px 0;
+      width: 220px;
+      &:nth-of-type(2){
+        flex-grow: 1;
+      }
     }
+  }
+  
+  .bill-title{
+    align-items: center;
   }
   
   .ant-breadcrumb a:hover{

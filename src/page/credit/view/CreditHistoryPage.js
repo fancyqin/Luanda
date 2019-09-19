@@ -3,7 +3,8 @@ import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import { Breadcrumb } from 'antd';
 import Bill from './module/Bill';
 import creditDao from '@/dao/CreditDao';
-import {formtDollar} from '@/utils/currency';
+import { formtDollar } from '@/utils/currency';
+import NoRecord from './module/NoRecord';
 
 let wrapCheckIsPhone;
 
@@ -27,13 +28,15 @@ export default class CreditHistory extends Component {
     return arr.map((item, idx) => {
       const temp = (
         <Fragment>
-          <div style={{ overflow: 'hidden',marginBottom:'6px' }}>
-            <span className="fl">
-              {item.billName}
+          <div style={{ overflow: 'hidden', marginBottom: '6px' }}>
+            <span className="fl">{item.billName}</span>
+            <span className="fr" style={{ fontSize: '12px' }}>
+              {item.billCycle}
             </span>
-            <span className="fr" style={{fontSize:'12px'}}>{item.billCycle}</span>
           </div>
-          <span style={{fontSize:'12px'}}>{formtDollar(item.totalAmount)}</span>
+          <span style={{ fontSize: '12px' }}>
+            {formtDollar(item.totalAmount)}
+          </span>
         </Fragment>
       );
       return this.state.isPhone ? (
@@ -121,7 +124,7 @@ export default class CreditHistory extends Component {
     Promise.all([creditDao.getCreditInfo(), creditDao.getHistoryList()])
       .then(([creditInfo, historyList]) => {
         let { creditStatus } = creditInfo.data;
-        if(creditStatus!='1')window.location.href = '/credit/applyCredit';
+        if (creditStatus != '1') window.location.href = '/credit/applyCredit';
         let { list } = historyList.data;
         this.setState({
           billList: this.sortList(list),
@@ -139,7 +142,19 @@ export default class CreditHistory extends Component {
 
   render() {
     const { match } = this.props;
-    const { curBill, isPhone } = this.state;
+    const { curBill, isPhone, billList } = this.state;
+    if (!billList || !billList.length) {
+      return (
+        <div className="vo-main-wrap">
+          <Breadcrumb separator={<i className="ob-icon icon-right"></i>}>
+            <Breadcrumb.Item href="/credit">Crov Credit</Breadcrumb.Item>
+            <Breadcrumb.Item>History Bills</Breadcrumb.Item>
+          </Breadcrumb>
+          <NoRecord></NoRecord>
+        </div>
+      );
+    }
+
     const listTemp = this.generateHistory();
     return (
       <div className="vo-main-wrap">
